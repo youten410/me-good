@@ -13,6 +13,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('home'),
+      ),body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text('今日の自分にGood!'),
+          ),
+          Center(
+            child: IconButton(
+              icon: Icon(Icons.thumb_up), 
+              iconSize: 200,
+              color: const Color.fromARGB(255, 255, 207, 34),
+              onPressed: () {  
+                print('tpped');
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

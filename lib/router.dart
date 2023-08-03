@@ -8,12 +8,12 @@ import 'package:me_good/screens/positive_feedback.dart';
 final GoRouter goRouter = GoRouter(
   routes: [
     GoRoute(
-        path: '/Home',
+        path: '/',
         pageBuilder: (context, state) {
           return MaterialPage(child: HomeScreen());
         }),
     GoRoute(
-        path: '/',
+        path: '/calender',
         pageBuilder: (context, state) {
           return MaterialPage(child: (CalendarScreen()));
         }),

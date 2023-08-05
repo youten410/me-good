@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -13,12 +14,19 @@ class _GoodScreenState extends State<GoodScreen> {
   bool _titleCompleted = false;
   late String comment;
   int goodCount = 0;
-  Map<DateTime, Map<String, dynamic>> dailyData = {};
+  late Timestamp date;
 
   void resetData() {
     _titleController.clear();
     comment = '';
     goodCount = 0;
+  }
+
+  void saveData(String date, int goodCount, String comment) async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('UserGoodCounts');
+
+    users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
 
   @override
@@ -91,12 +99,9 @@ class _GoodScreenState extends State<GoodScreen> {
                   if (goodCount != 0 && comment.isNotEmpty) {
                     DateTime now = DateTime.now();
                     DateTime date = DateTime(now.year, now.month, now.day);
-                    dailyData[date] = {
-                      "goodCount": goodCount,
-                      "comment": comment
-                    };
-                    print(dailyData);
-                    resetData(); // データをリセット
+                    String dateString =
+                        DateFormat('yyyy-MM-dd').format(date); // 日付を文字列に変換
+                    saveData(dateString, goodCount, comment);
                   } else {
                     print("どちらかが不足");
                   }

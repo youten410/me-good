@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -12,6 +13,13 @@ class _GoodScreenState extends State<GoodScreen> {
   bool _titleCompleted = false;
   late String comment;
   int goodCount = 0;
+  Map<DateTime, Map<String, dynamic>> dailyData = {};
+
+  void resetData() {
+    _titleController.clear();
+    comment = '';
+    goodCount = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +41,8 @@ class _GoodScreenState extends State<GoodScreen> {
               children: [
                 Container(
                   width: 200,
-                  child: Row(mainAxisAlignment: MainAxisAlignment.end, 
-                  children: [
+                  child:
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     Text("✖️ $goodCount"),
                   ]),
                 ),
@@ -46,7 +54,6 @@ class _GoodScreenState extends State<GoodScreen> {
                     setState(() {
                       goodCount += 1;
                     });
-                    print("タップ");
                   },
                 ),
               ],
@@ -77,7 +84,25 @@ class _GoodScreenState extends State<GoodScreen> {
                           _titleCompleted = text.isNotEmpty;
                           comment = _titleController.text.toString();
                         }))),
-          )
+          ),
+          Center(
+            child: TextButton(
+                onPressed: () {
+                  if (goodCount != 0 && comment.isNotEmpty) {
+                    DateTime now = DateTime.now();
+                    DateTime date = DateTime(now.year, now.month, now.day);
+                    dailyData[date] = {
+                      "goodCount": goodCount,
+                      "comment": comment
+                    };
+                    print(dailyData);
+                    resetData(); // データをリセット
+                  } else {
+                    print("どちらかが不足");
+                  }
+                },
+                child: Text("確定")),
+          ),
         ],
       ),
     );

@@ -22,10 +22,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
-    _eventsList = {
-      DateTime.now().subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      DateTime.now(): ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-    };
+
+    final _collectionRef =
+        FirebaseFirestore.instance.collection("UserGoodCounts");
+
+    Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {
+      Map<DateTime, List<dynamic>> dateCommentMap = {};
+
+      try {
+        QuerySnapshot querySnapshot = await _collectionRef.get();
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          String dateString = doc.id;
+          DateTime parsedDate = DateTime.parse(dateString);
+          dynamic comment = doc.get('comment');
+          dateCommentMap[parsedDate] = [comment];
+        }
+        return dateCommentMap;
+      } catch (e) {
+        print("Error fetching data: $e");
+        return dateCommentMap;
+      }
+    }
+
+    fetchCommentsByDate().then((fetchedData) {
+      setState(() {
+        _eventsList = fetchedData;
+      });
+    });
   }
 
   @override
@@ -45,7 +68,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
           focusedDay: DateTime.now(),
-          eventLoader: getEventForDay, 
+          eventLoader: getEventForDay,
           headerStyle: HeaderStyle(
             formatButtonVisible: false,
           ),
@@ -62,14 +85,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
             }
           },
         ),
-                  ListView(
-            shrinkWrap: true,
-            children: getEventForDay(_selectedDay!)
-                .map((event) => ListTile(
-                      title: Text(event.toString()),
-                    ))
-                .toList(),
-          )
+        ListView(
+          shrinkWrap: true,
+          children: getEventForDay(_selectedDay!)
+              .map((event) => ListTile(
+                    title: Text(event.toString()),
+                  ))
+              .toList(),
+        )
       ],
     );
   }

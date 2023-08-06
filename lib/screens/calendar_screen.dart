@@ -63,18 +63,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
       return _events[day] ?? [];
     }
 
+    List dayEvents = getEventForDay(_selectedDay!);
+    String displayComment = dayEvents.isNotEmpty ? dayEvents[0].toString() : 'No Events';
+    String displayGoodCount = dayEvents.isNotEmpty ? dayEvents[1].toString() : 'No Count';
+
     return Column(
       children: [
         TableCalendar(
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: DateTime.now(),
+          focusedDay: _focusedDay,
           eventLoader: getEventForDay,
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, date, events) {
+              if (events.isNotEmpty) {
+                return _buildEventsMarker(date, events);
+              }
+              return null;
+            },
+          ),
           headerStyle: HeaderStyle(
             formatButtonVisible: false,
           ),
           selectedDayPredicate: (day) {
-            //以下追記部分
             return isSameDay(_selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
@@ -88,11 +99,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         ListView(
           shrinkWrap: true,
-          children: getEventForDay(_selectedDay!)
-              .map((event) => ListTile(
-                    title: Text(event.toString()),
-                  ))
-              .toList(),
+          children: [
+            ListTile(
+              title: Text('コメント: $displayComment \nいいね数: $displayGoodCount')
+            ),
+          ],
         )
       ],
     );

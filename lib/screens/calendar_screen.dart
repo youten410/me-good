@@ -31,6 +31,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
+  Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {
+    Map<DateTime, List<dynamic>> dateCommentMap = {};
+
+    final _collectionRef = FirebaseFirestore.instance.collection("UserGoodCounts");
+
+    try {
+      QuerySnapshot querySnapshot = await _collectionRef.get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        String dateString = doc.id;
+        DateTime parsedDate = DateTime.parse(dateString);
+        dynamic comment = doc.get('comment');
+        dynamic goodCount = doc.get('goodCount');
+        dateCommentMap[parsedDate] = [comment, goodCount];
+      }
+      return dateCommentMap;
+    } catch (e) {
+      print("Error fetching data: $e");
+      return dateCommentMap;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _events = LinkedHashMap<DateTime, List>(

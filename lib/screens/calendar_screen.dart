@@ -23,27 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.initState();
     _selectedDay = _focusedDay;
 
-    final _collectionRef =
-        FirebaseFirestore.instance.collection("UserGoodCounts");
-
-    Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {
-      Map<DateTime, List<dynamic>> dateCommentMap = {};
-
-      try {
-        QuerySnapshot querySnapshot = await _collectionRef.get();
-        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-          String dateString = doc.id;
-          DateTime parsedDate = DateTime.parse(dateString);
-          dynamic comment = doc.get('comment');
-          dateCommentMap[parsedDate] = [comment];
-        }
-        return dateCommentMap;
-      } catch (e) {
-        print("Error fetching data: $e");
-        return dateCommentMap;
-      }
-    }
-
+    final _collectionRef = FirebaseFirestore.instance.collection("UserGoodCounts");
     fetchCommentsByDate().then((fetchedData) {
       setState(() {
         _eventsList = fetchedData;

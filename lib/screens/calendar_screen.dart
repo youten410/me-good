@@ -97,4 +97,31 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ],
     );
   }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    var goodCount = events.length > 1 ? events[1].toString() : "0";
+
+    return Positioned(
+      right: 5,
+      bottom: 5,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.red[300],
+        ),
+        width: 16.0,
+        height: 16.0,
+        child: Center(
+          child: Text(
+            goodCount,
+            style: TextStyle().copyWith(
+              color: Colors.white,
+              fontSize: 12.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

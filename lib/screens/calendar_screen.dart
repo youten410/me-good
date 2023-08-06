@@ -10,6 +10,8 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
       ),
+       selectedDayPredicate: (day) {      //以下追記部分
+              return isSameDay(_selectedDay, day);
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              if (!isSameDay(_selectedDay, selectedDay)) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              }
+            },
     );
-    ;
   }
 }

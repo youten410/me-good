@@ -11,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _tab = <Tab> [
-    Tab( text:'Good', icon: Icon(Icons.thumb_up)),
-    Tab( text:'Calender', icon: Icon(Icons.calendar_month)),
+    Tab( text:'いいね', icon: Icon(Icons.thumb_up)),
+    Tab( text:'カレンダー', icon: Icon(Icons.calendar_month)),
   ];
 
   Widget build(BuildContext context) {

@@ -102,11 +102,13 @@ class _GoodScreenState extends State<GoodScreen> {
                     String dateString =
                         DateFormat('yyyy-MM-dd').format(date); // 日付を文字列に変換
                     saveData(dateString, goodCount, comment);
+                    // モーダルの表示
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext bc) {
                           return Container(
+                            padding: EdgeInsets.only(top: 40.0),
                             height: MediaQuery.of(context).size.height,
                             child: Column(
                               mainAxisAlignment:

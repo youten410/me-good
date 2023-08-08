@@ -102,6 +102,29 @@ class _GoodScreenState extends State<GoodScreen> {
                     String dateString =
                         DateFormat('yyyy-MM-dd').format(date); // 日付を文字列に変換
                     saveData(dateString, goodCount, comment);
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (BuildContext bc) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                              children: <Widget>[
+                                ListTile(
+                                    leading: Icon(Icons.info),
+                                    title: Text('適当な文字列'),
+                                    trailing: IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )),
+                              ],
+                            ),
+                          );
+                        });
                   } else {
                     print("どちらかが不足");
                   }

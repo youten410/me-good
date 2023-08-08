@@ -113,6 +113,12 @@ class _GoodScreenState extends State<GoodScreen> {
           ),
           Center(
             child: TextButton(
+                style: TextButton.styleFrom(
+                  fixedSize: const Size(200, 50),
+                    backgroundColor: Colors.blue,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    )),
                 onPressed: () {
                   if (goodCount != 0 && comment.isNotEmpty) {
                     DateTime now = DateTime.now();

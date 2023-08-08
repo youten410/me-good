@@ -88,7 +88,7 @@ class _GoodScreenState extends State<GoodScreen> {
                   FocusScope.of(context).unfocus(); // キーボードを閉じる
                 },
                 child: Container(
-                    width: MediaQuery.of(context).size.width * 1.0,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.width * 0.2,
                     alignment: Alignment.centerLeft,
                     child: TextFormField(

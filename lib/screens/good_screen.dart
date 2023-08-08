@@ -144,7 +144,14 @@ class _GoodScreenState extends State<GoodScreen> {
                     print("どちらかが不足");
                   }
                 },
-                child: Text("確定")),
+                child: Text(
+                  "きろく",
+                  style:TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                  )),
           ),
         ],
       ),

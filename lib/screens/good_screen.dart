@@ -25,6 +25,7 @@ class _GoodScreenState extends State<GoodScreen> {
   void saveData(String date, int goodCount, String comment) async {
     CollectionReference users =
         FirebaseFirestore.instance.collection('UserGoodCounts');
+    // コレクション名は後でuserID(匿名)にする
 
     users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
@@ -70,28 +71,42 @@ class _GoodScreenState extends State<GoodScreen> {
           SizedBox(
             height: 30,
           ),
-          Center(
-            child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.width * 0.2,
-                color: Colors.grey,
-                alignment: Alignment.centerLeft,
-                child: TextFormField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      hintText: "コメント",
-                      hintStyle:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 20.0),
-                    ),
-                    maxLength: 14,
-                    maxLines: null,
-                    style: TextStyle(fontSize: 20),
-                    onChanged: (text) => setState(() {
-                          _titleCompleted = text.isNotEmpty;
-                          comment = _titleController.text.toString();
-                        }))),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(10, 10))
+              ],
+            ),
+            child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus(); // キーボードを閉じる
+                },
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 1.0,
+                    height: MediaQuery.of(context).size.width * 0.2,
+                    alignment: Alignment.centerLeft,
+                    child: TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          hintText: 'コメント',
+                          hintStyle: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(left: 20.0),
+                        ),
+                        maxLength: 14,
+                        maxLines: null,
+                        style: TextStyle(fontSize: 20),
+                        onChanged: (text) => setState(() {
+                              _titleCompleted = text.isNotEmpty;
+                              comment = _titleController.text.toString();
+                            })))),
           ),
           Center(
             child: TextButton(
@@ -111,11 +126,9 @@ class _GoodScreenState extends State<GoodScreen> {
                             padding: EdgeInsets.only(top: 40.0),
                             height: MediaQuery.of(context).size.height,
                             child: Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 ListTile(
-                                    leading: Icon(Icons.info),
                                     title: Text('適当な文字列'),
                                     trailing: IconButton(
                                       icon: Icon(Icons.close),

@@ -108,6 +108,9 @@ class _GoodScreenState extends State<GoodScreen> {
                               comment = _titleController.text.toString();
                             })))),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Center(
             child: TextButton(
                 onPressed: () {

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:me_good/screens/good_screen.dart';
 import 'package:me_good/screens/calendar_screen.dart';
 import 'package:me_good/screens/home_screen.dart';
+import 'package:me_good/screens/feedback_screen.dart';
 
 final GoRouter goRouter = GoRouter(
   routes: [
@@ -11,6 +12,11 @@ final GoRouter goRouter = GoRouter(
         path: '/',
         pageBuilder: (context, state) {
           return MaterialPage(child: HomeScreen());
+        }),
+    GoRoute(
+        path: '/feedBack',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: PositiveFeedback());
         }),
   ],
 );

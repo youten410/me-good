@@ -39,7 +39,10 @@ class _GoodScreenState extends State<GoodScreen> {
           Center(
             child: Text(
               '今日の自分にGood!',
-              style: TextStyle(color: Colors.deepPurple, fontSize: 30),
+              style: TextStyle(
+                color: Colors.deepPurple,
+                fontSize: 30,
+                ),
             ),
           ),
           SizedBox(

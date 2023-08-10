@@ -135,13 +135,19 @@ class _GoodScreenState extends State<GoodScreen> {
                         isScrollControlled: true,
                         builder: (BuildContext bc) {
                           return Container(
-                            padding: EdgeInsets.only(top: 40.0),
+                            padding: EdgeInsets.only(top: 100.0),
                             height: MediaQuery.of(context).size.height,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 ListTile(
-                                    title: Text('適当な文字列'),
+                                    title: Text(
+                                      '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                      ),
                                     trailing: IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {

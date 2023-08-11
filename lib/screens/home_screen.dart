@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 20,
+          elevation: 0.0,
           backgroundColor: HSLColor.fromAHSL(1.0, 30, 1.0, 0.75).toColor(),
           //shadowColor: Colors.black,
           bottom: TabBar(

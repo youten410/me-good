@@ -17,6 +17,7 @@ class _GoodScreenState extends State<GoodScreen> {
   late String comment;
   int goodCount = 0;
   late Timestamp date;
+  bool _isElevated = true;
 
   void resetData() {
     _titleController.clear();
@@ -66,20 +67,40 @@ class _GoodScreenState extends State<GoodScreen> {
                   Text("✖️ $goodCount"),
                 ]),
               ),
-              SizedBox(
-                height: 100,
-                width: 100,
-                child: Flat3dButton.icon(
-                  icon: Icons.thumb_up,
-                  color: Colors.yellow,
-                  // color: const Color.fromARGB(255, 255, 207, 34),
-                  onPressed: () {
-                    setState(() {
-                      goodCount += 1;
-                    });
-                  },
-                ),
-              ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _isElevated = !_isElevated;
+            });
+          },
+          child: AnimatedContainer(
+            duration: const Duration(
+              milliseconds: 200,
+            ),
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: _isElevated
+                  ? [
+                      const BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(4, 4),
+                        blurRadius: 15,
+                        spreadRadius: 1,
+                      ),
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4, -4),
+                        blurRadius: 15,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : null,
+            ),
+          ),
+        ),
             ],
           ),
           SizedBox(

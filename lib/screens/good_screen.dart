@@ -229,11 +229,22 @@ class _GoodScreenState extends State<GoodScreen> {
                                   ],
                                 ),
                                 Container(
-                                  child: Text(
-                                    '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Container(
+                                          width: 154,
+                                          height: 230,
+                                          child: Image.asset(
+                                              'assets/good_iamge.jpg',
+                                              fit: BoxFit.contain),
+                                            )
+                                    ],
                                   ),
                                 )
                               ],

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flat_3d_button/flat_3d_button.dart';
 import 'package:pushable_button/pushable_button.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -12,6 +13,9 @@ class GoodScreen extends StatefulWidget {
 }
 
 class _GoodScreenState extends State<GoodScreen> {
+  // Get a non-default Storage bucket
+  final storage =
+      FirebaseStorage.instanceFor(bucket: "gs://me-good-2575b.appspot.com");
   TextEditingController _titleController = TextEditingController();
   bool _titleCompleted = false;
   late String comment;

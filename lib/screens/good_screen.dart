@@ -140,21 +140,28 @@ class _GoodScreenState extends State<GoodScreen> {
                             height: MediaQuery.of(context).size.height,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                ListTile(
-                                    title: Text(
-                                      '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
-                                      style: TextStyle(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            resetData();
+                                          });
+                                        },
+                                        icon: Icon(Icons.close))
+                                  ],
+                                ),
+                                Container(
+                                  child: Text(
+                                    '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
+                                    style: TextStyle(
                                         fontSize: 30,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
                               ],
                             ),
                           );

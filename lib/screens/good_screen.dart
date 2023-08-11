@@ -125,13 +125,11 @@ class _GoodScreenState extends State<GoodScreen> {
                               ],
                       ),
                     ),
-                    const Text(
-                      '♡',
-                      style: TextStyle(
-                        fontSize: 50,
-                        color: Colors.orangeAccent
-                        ),
-                    ),
+                    Icon(
+                      Icons.favorite,
+                      color: Colors.deepOrangeAccent,
+                      size: 70,
+                    )
                   ],
                 ),
               )

@@ -48,20 +48,21 @@ class _GoodScreenState extends State<GoodScreen> {
           SizedBox(
             height: 50,
           ),
-          Center(
-            child: Column(
-              children: [
-                Container(
-                  width: 200,
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    Text("✖️ $goodCount"),
-                  ]),
-                ),
-                IconButton(
-                  icon: Icon(Icons.thumb_up),
-                  iconSize: 200,
-                  color: const Color.fromARGB(255, 255, 207, 34),
+          Column(
+            children: [
+              Container(
+                width: 200,
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Text("✖️ $goodCount"),
+                ]),
+              ),
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: Flat3dButton.icon(
+                  icon: Icons.thumb_up,
+                  color: Colors.yellow,
+                  // color: const Color.fromARGB(255, 255, 207, 34),
                   onPressed: () {
                     setState(() {
                       goodCount += 1;

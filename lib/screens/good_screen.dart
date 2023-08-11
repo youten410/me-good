@@ -102,7 +102,7 @@ class _GoodScreenState extends State<GoodScreen> {
                 },
                 child: Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.width * 0.4,
                     alignment: Alignment.centerLeft,
                     child: TextFormField(
                         controller: _titleController,
@@ -113,9 +113,9 @@ class _GoodScreenState extends State<GoodScreen> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(left: 20.0),
                         ),
-                        maxLength: 14,
+                        maxLength: 100,
                         maxLines: null,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 15),
                         onChanged: (text) => setState(() {
                               _titleCompleted = text.isNotEmpty;
                               comment = _titleController.text.toString();

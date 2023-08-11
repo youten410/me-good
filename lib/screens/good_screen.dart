@@ -192,7 +192,7 @@ class _GoodScreenState extends State<GoodScreen> {
                 height: 60,
                 elevation: 8,
                 hslColor: const HSLColor.fromAHSL(1.0, 30, 1.0, 0.75),
-                shadow: shadow,
+                // shadow: shadow,
                 onPressed: () {
                   if (goodCount != 0 && comment.isNotEmpty) {
                     DateTime now = DateTime.now();

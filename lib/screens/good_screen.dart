@@ -67,40 +67,74 @@ class _GoodScreenState extends State<GoodScreen> {
                   Text("✖️ $goodCount"),
                 ]),
               ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _isElevated = !_isElevated;
-            });
-          },
-          child: AnimatedContainer(
-            duration: const Duration(
-              milliseconds: 200,
-            ),
-            height: 200,
-            width: 200,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(50),
-              boxShadow: _isElevated
-                  ? [
-                      const BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(4, 4),
-                        blurRadius: 15,
-                        spreadRadius: 1,
+              // いいねボタン
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isElevated = !_isElevated;
+                    goodCount ++;
+                  });
+                  // 1秒後に元の状態に戻す
+                  Future.delayed(Duration(milliseconds: 500), () {
+                    setState(() {
+                      _isElevated = true;
+                    });
+                  });
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(
+                        milliseconds: 200,
                       ),
-                      const BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-4, -4),
-                        blurRadius: 15,
-                        spreadRadius: 1,
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: HSLColor.fromAHSL(1.0, 40, 1.0, 0.75).toColor(), // 面の色
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: _isElevated
+                            ? [
+                                const BoxShadow(
+                                  color: Colors.grey, //右下のシャドーの色
+                                  offset: Offset(3, 3), 
+                                  blurRadius: 10, 
+                                  spreadRadius: 1,
+                                ),
+                                const BoxShadow(
+                                  color: Colors.white, // 左上のシャドーの色
+                                  offset: Offset(-3, -3),
+                                  blurRadius: 10,
+                                  spreadRadius: 1,
+                                ),
+                              ]
+                            : [
+                                // フラットになりすぎないよう、小さなシャドウを残す
+                                const BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(1, 1),
+                                  blurRadius: 2,
+                                  spreadRadius: 1,
+                                ),
+                                const BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(-1, -1),
+                                  blurRadius: 2,
+                                  spreadRadius: 1,
+                                ),
+                              ],
                       ),
-                    ]
-                  : null,
-            ),
-          ),
-        ),
+                    ),
+                    const Text(
+                      '♡',
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.orangeAccent
+                        ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           SizedBox(
@@ -161,7 +195,7 @@ class _GoodScreenState extends State<GoodScreen> {
                 elevation: 8,
                 hslColor: const HSLColor.fromAHSL(1.0, 30, 1.0, 0.75),
                 shadow: shadow,
-                                onPressed: () {
+                onPressed: () {
                   if (goodCount != 0 && comment.isNotEmpty) {
                     DateTime now = DateTime.now();
                     DateTime date = DateTime(now.year, now.month, now.day);

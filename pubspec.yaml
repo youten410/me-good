@@ -39,6 +39,8 @@ dependencies:
   table_calendar: ^3.0.9
   firebase_core: ^2.15.0
   cloud_firestore: ^4.8.4
+  flat_3d_button: ^1.0.3
+  pushable_button: ^0.0.2
 
 dev_dependencies:
   flutter_test:

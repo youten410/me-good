@@ -43,7 +43,7 @@ class _GoodScreenState extends State<GoodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+      backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

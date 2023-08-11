@@ -142,13 +142,13 @@ class _GoodScreenState extends State<GoodScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10.0,
-                    spreadRadius: 1.0,
-                    offset: Offset(10, 10))
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.black12,
+              //       blurRadius: 10.0,
+              //       spreadRadius: 1.0,
+              //       offset: Offset(10, 10))
+              // ],
             ),
             child: GestureDetector(
                 onTap: () {

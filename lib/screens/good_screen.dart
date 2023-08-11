@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flat_3d_button/flat_3d_button.dart';
+import 'package:pushable_button/pushable_button.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -30,6 +32,13 @@ class _GoodScreenState extends State<GoodScreen> {
     users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
 
+  final shadow = BoxShadow(
+    color: Colors.grey.withOpacity(0.5),
+    spreadRadius: 5,
+    blurRadius: 7,
+    offset: const Offset(0, 2),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +47,11 @@ class _GoodScreenState extends State<GoodScreen> {
         children: [
           Center(
             child: Text(
-              '今日の自分にGood!',
+              'テスト',
               style: TextStyle(
                 color: Colors.deepPurple,
                 fontSize: 30,
-                ),
+              ),
             ),
           ),
           SizedBox(
@@ -69,8 +78,8 @@ class _GoodScreenState extends State<GoodScreen> {
                     });
                   },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           SizedBox(
             height: 30,
@@ -116,21 +125,28 @@ class _GoodScreenState extends State<GoodScreen> {
             height: 20,
           ),
           Center(
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  fixedSize: const Size(200, 50),
-                    backgroundColor: Colors.blue,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                    )),
-                onPressed: () {
+            child: Container(
+              width: 300,
+              child: PushableButton(
+                child: const Text(
+                  'きろく',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                height: 60,
+                elevation: 8,
+                hslColor: const HSLColor.fromAHSL(1.0, 30, 1.0, 0.75),
+                shadow: shadow,
+                                onPressed: () {
                   if (goodCount != 0 && comment.isNotEmpty) {
                     DateTime now = DateTime.now();
                     DateTime date = DateTime(now.year, now.month, now.day);
                     String dateString =
                         DateFormat('yyyy-MM-dd').format(date); // 日付を文字列に変換
                     saveData(dateString, goodCount, comment);
-                    // モーダルの表示
+                    // モーダルの表示　バツボタンの位置は上に保持したい
                     showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -167,17 +183,12 @@ class _GoodScreenState extends State<GoodScreen> {
                           );
                         });
                   } else {
+                    // モーダル？か何かで表示（上から出るやつとか
                     print("どちらかが不足");
                   }
                 },
-                child: Text(
-                  "きろく",
-                  style:TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                  ),
-                  )),
+              ),
+            ),
           ),
         ],
       ),

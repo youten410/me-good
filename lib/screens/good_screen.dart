@@ -239,7 +239,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                         padding: EdgeInsets.only(
                                             right: 20.0, left: 20.0),
                                         child: Text(
-                                          '$goodCountいいね!\n素晴らしい!今日も自分を褒めてあげよう!',
+                                          '"$goodCount"いいね!\n素晴らしい!今日も自分を褒めてあげよう!',
                                           style: TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
@@ -248,8 +248,8 @@ class _GoodScreenState extends State<GoodScreen> {
                                       Container(
                                           height: 500,
                                           width: 300,
-                                          child: Image.network(
-                                              'https://img.freepik.com/free-vector/happy-young-couple-having-fun-girl-guy-dancing-party-celebrating-good-news-flat-illustration_74855-10820.jpg?w=1380&t=st=1691891370~exp=1691891970~hmac=7ee022a53aa90f8c7ce8e3b35c9c61d014ebab5c5259a2117c54ae77e9e40453'))
+                                          child: Image.asset(
+                                              'assets/images/good_image.jpg'))
                                     ],
                                   ),
                                 )

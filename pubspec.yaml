@@ -42,6 +42,7 @@ dependencies:
   flat_3d_button: ^1.0.3
   pushable_button: ^0.0.2
   firebase_storage: ^11.2.5
+  flutter_localization: ^0.1.13
 
 dev_dependencies:
   flutter_test:

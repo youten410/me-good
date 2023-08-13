@@ -68,7 +68,10 @@ class _GoodScreenState extends State<GoodScreen> {
               Container(
                 width: 200,
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text("✖️ $goodCount"),
+                  Text(
+                    "♡ $goodCount",
+                    style: TextStyle(fontSize: 20, color: Colors.orangeAccent),
+                  ),
                 ]),
               ),
               // いいねボタン

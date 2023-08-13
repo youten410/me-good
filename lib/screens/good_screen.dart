@@ -76,7 +76,7 @@ class _GoodScreenState extends State<GoodScreen> {
                 onTap: () {
                   setState(() {
                     _isElevated = !_isElevated;
-                    goodCount ++;
+                    goodCount++;
                   });
                   // 1秒後に元の状態に戻す
                   Future.delayed(Duration(milliseconds: 500), () {
@@ -95,14 +95,15 @@ class _GoodScreenState extends State<GoodScreen> {
                       height: 150,
                       width: 150,
                       decoration: BoxDecoration(
-                        color: HSLColor.fromAHSL(1.0, 40, 1.0, 0.75).toColor(), // 面の色
+                        color: HSLColor.fromAHSL(1.0, 40, 1.0, 0.75)
+                            .toColor(), // 面の色
                         borderRadius: BorderRadius.circular(100),
                         boxShadow: _isElevated
                             ? [
                                 const BoxShadow(
                                   color: Colors.grey, //右下のシャドーの色
-                                  offset: Offset(3, 3), 
-                                  blurRadius: 10, 
+                                  offset: Offset(3, 3),
+                                  blurRadius: 10,
                                   spreadRadius: 1,
                                 ),
                                 const BoxShadow(
@@ -142,6 +143,7 @@ class _GoodScreenState extends State<GoodScreen> {
           SizedBox(
             height: 30,
           ),
+          // テキストフィールド
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -206,6 +208,7 @@ class _GoodScreenState extends State<GoodScreen> {
                     saveData(dateString, goodCount, comment);
                     // モーダルの表示　バツボタンの位置は上に保持したい
                     showModalBottomSheet(
+                        backgroundColor: Colors.white,
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext bc) {
@@ -229,21 +232,24 @@ class _GoodScreenState extends State<GoodScreen> {
                                   ],
                                 ),
                                 Container(
+                                  color: Colors.white,
                                   child: Column(
                                     children: [
-                                      Text(
-                                        '今日は、$goodCountいいね!\nできたね!\n自分にご褒美を!',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            right: 20.0, left: 20.0),
+                                        child: Text(
+                                          '$goodCountいいね!\n素晴らしい!今日も自分を褒めてあげよう!',
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                       Container(
-                                          width: 154,
-                                          height: 230,
-                                          child: Image.asset(
-                                              'assets/good_iamge.jpg',
-                                              fit: BoxFit.contain),
-                                            )
+                                          height: 500,
+                                          width: 300,
+                                          child: Image.network(
+                                              'https://img.freepik.com/free-vector/happy-young-couple-having-fun-girl-guy-dancing-party-celebrating-good-news-flat-illustration_74855-10820.jpg?w=1380&t=st=1691891370~exp=1691891970~hmac=7ee022a53aa90f8c7ce8e3b35c9c61d014ebab5c5259a2117c54ae77e9e40453'))
                                     ],
                                   ),
                                 )

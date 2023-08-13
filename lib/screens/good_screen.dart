@@ -60,7 +60,7 @@ class _GoodScreenState extends State<GoodScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 80,
+                height: 60,
               ),
               Column(
                 children: [

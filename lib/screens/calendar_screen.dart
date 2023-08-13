@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -23,7 +24,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.initState();
     _selectedDay = _focusedDay;
 
-    final _collectionRef = FirebaseFirestore.instance.collection("UserGoodCounts");
+    final _collectionRef =
+        FirebaseFirestore.instance.collection("UserGoodCounts");
     fetchCommentsByDate().then((fetchedData) {
       setState(() {
         _eventsList = fetchedData;
@@ -34,7 +36,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {
     Map<DateTime, List<dynamic>> dateCommentMap = {};
 
-    final _collectionRef = FirebaseFirestore.instance.collection("UserGoodCounts");
+    final _collectionRef =
+        FirebaseFirestore.instance.collection("UserGoodCounts");
 
     try {
       QuerySnapshot querySnapshot = await _collectionRef.get();
@@ -64,12 +67,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
 
     List dayEvents = getEventForDay(_selectedDay!);
-    String displayComment = dayEvents.isNotEmpty ? dayEvents[0].toString() : 'No Events';
-    String displayGoodCount = dayEvents.isNotEmpty ? dayEvents[1].toString() : 'No Count';
+    String displayComment =
+        dayEvents.isNotEmpty ? dayEvents[0].toString() : 'No Events';
+    String displayGoodCount =
+        dayEvents.isNotEmpty ? dayEvents[1].toString() : 'No Count';
 
     return Column(
       children: [
         TableCalendar(
+          locale: 'ja_JP',
+          calendarStyle: CalendarStyle(
+            selectedDecoration: BoxDecoration(
+              color: Colors.orangeAccent,
+              shape: BoxShape.circle,
+            ),
+            todayDecoration: BoxDecoration(
+              color: Color.fromARGB(255, 248, 155, 126),
+              shape: BoxShape.circle,
+            ),
+          ),
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
           focusedDay: _focusedDay,
@@ -84,6 +100,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           headerStyle: HeaderStyle(
             formatButtonVisible: false,
+            leftChevronIcon: Icon(Icons.arrow_left, color: Colors.black),
+            rightChevronIcon: Icon(Icons.arrow_right, color: Colors.black),
           ),
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
@@ -101,8 +119,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           shrinkWrap: true,
           children: [
             ListTile(
-              title: Text('コメント: $displayComment \nいいね数: $displayGoodCount')
-            ),
+                title: Text('コメント: $displayComment \nいいね数: $displayGoodCount')),
           ],
         )
       ],
@@ -119,7 +136,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.red[300],
+          color: Colors.orange[700],
         ),
         width: 16.0,
         height: 16.0,

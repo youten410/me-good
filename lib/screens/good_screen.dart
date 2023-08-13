@@ -51,18 +51,18 @@ class _GoodScreenState extends State<GoodScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Text(
-              'テスト',
-              style: TextStyle(
-                color: Colors.deepPurple,
-                fontSize: 30,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
+          // Center(
+          //   child: Text(
+          //     'テスト',
+          //     style: TextStyle(
+          //       color: Colors.deepPurple,
+          //       fontSize: 30,
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 50,
+          // ),
           Column(
             children: [
               Container(

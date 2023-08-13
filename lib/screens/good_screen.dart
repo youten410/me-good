@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -259,6 +260,20 @@ class _GoodScreenState extends State<GoodScreen> {
                       } else {
                         // モーダル？か何かで表示（上から出るやつとか
                         print("どちらかが不足");
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: Text("未入力です"),
+                                content: Text("「いいね」と「コメント」両方入力してね"),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: Text('OK'),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                ],
+                              );
+                            });
                       }
                     },
                   ),

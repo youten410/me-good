@@ -131,12 +131,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
               weekdayStyle: TextStyle(fontSize: 20),
               weekendStyle: TextStyle(fontSize: 20)),
         ),
-        ListView(
-          shrinkWrap: true,
-          children: [
-            ListTile(
-                title: Text('コメント: $displayComment \nいいね数: $displayGoodCount')),
-          ],
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          child: Text('いいね数 : $displayGoodCount\n\n★コメント★\n$displayComment'),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+              bottom: Radius.circular(20),
+            ),
+            color: Colors.orange[100],
+          ),
+          height: 200,
+          width: 350,
         )
       ],
     );

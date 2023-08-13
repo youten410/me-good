@@ -77,6 +77,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         TableCalendar(
           locale: 'ja_JP',
           calendarStyle: CalendarStyle(
+            defaultTextStyle: TextStyle(fontSize: 20),
+            weekendTextStyle: TextStyle(fontSize: 20, color: Colors.red),
             selectedDecoration: BoxDecoration(
               color: Colors.orangeAccent,
               shape: BoxShape.circle,
@@ -99,9 +101,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
           ),
           headerStyle: HeaderStyle(
+            titleTextStyle: TextStyle(fontSize: 22, color: Colors.black),
+            headerPadding: EdgeInsets.all(10),
             formatButtonVisible: false,
-            leftChevronIcon: Icon(Icons.arrow_left, color: Colors.black),
-            rightChevronIcon: Icon(Icons.arrow_right, color: Colors.black),
+            leftChevronIcon: Icon(
+              Icons.arrow_left,
+              color: Colors.black,
+              size: 40,
+            ), // 左ボタン
+            rightChevronIcon: Icon(
+              Icons.arrow_right,
+              color: Colors.black,
+              size: 40,
+            ), // 右ボタン
           ),
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
@@ -114,6 +126,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
               });
             }
           },
+          daysOfWeekHeight: 30,
+          daysOfWeekStyle: DaysOfWeekStyle(
+              weekdayStyle: TextStyle(fontSize: 20),
+              weekendStyle: TextStyle(fontSize: 20)),
         ),
         ListView(
           shrinkWrap: true,

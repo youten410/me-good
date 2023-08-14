@@ -6,6 +6,8 @@ import 'package:flat_3d_button/flat_3d_button.dart';
 import 'package:pushable_button/pushable_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart';
+import 'package:dart_openai/dart_openai.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -47,6 +49,37 @@ class _GoodScreenState extends State<GoodScreen> {
   );
 
   final focusNode = FocusNode();
+
+  // openAI API
+  String? advice;
+  String? _imageUrl;
+
+  Future<void> getAdvice(comment) async {
+    OpenAI.apiKey = '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';
+
+    // Start using!
+    final completion = await OpenAI.instance.completion.create(
+        model: "text-davinci-003",
+        prompt:
+            '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
+        maxTokens: 200);
+
+    // Printing the output to the console
+    advice = completion.choices[0].text;
+
+    print('アドバイス $advice');
+
+    // // Generate an image from a prompt.
+    final image = await OpenAI.instance.image.create(
+      prompt: "$adviceの内容を表すような画像を生成してください。",
+      n: 1,
+    );
+
+    // // Printing the output to the console.
+    _imageUrl = image.data.first.url;
+
+    print(_imageUrl);
+  }
 
   @override
   Widget build(BuildContext context) {

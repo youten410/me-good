@@ -248,7 +248,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                           ),
                                           Container(
                                               height: 400,
-                                              width: 200,
+                                              width: 250,
                                               child: Image.asset(
                                                   'assets/images/good_image.jpg')),
                                           IconButton(
@@ -258,7 +258,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                               },
                                               icon: Icon(
                                                 Icons.share,
-                                                size: 20,
+                                                size: 30,
                                               ))
                                         ],
                                       ),

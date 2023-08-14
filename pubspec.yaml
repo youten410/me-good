@@ -46,6 +46,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   share_plus: ^7.1.0
   http: ^1.1.0
+  dart_openai: ^4.0.0
   
 
 dev_dependencies:

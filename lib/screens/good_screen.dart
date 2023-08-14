@@ -62,14 +62,12 @@ class _GoodScreenState extends State<GoodScreen> {
     try {
       OpenAI.apiKey = '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';
 
-      // Start using!
       final completion = await OpenAI.instance.completion.create(
           model: "text-davinci-003",
           prompt:
               '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
           maxTokens: 200);
 
-      // Printing the output to the console
       advice = completion.choices[0].text;
 
       print('アドバイス $advice');
@@ -258,7 +256,7 @@ class _GoodScreenState extends State<GoodScreen> {
                             // モーダルの表示　バツボタンの位置は上に保持したい
                             showModalBottomSheet(
                                 backgroundColor:
-                                    HSLColor.fromAHSL(1.0, 30, 1.0, 0.75)
+                                    HSLColor.fromAHSL(1.0, 33, 1.0, 0.85)
                                         .toColor(),
                                 context: context,
                                 isScrollControlled: true,
@@ -286,7 +284,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                         ),
                                         Container(
                                           color: HSLColor.fromAHSL(
-                                                  1.0, 30, 1.0, 0.75)
+                                                  1.0, 33, 1.0, 0.85)
                                               .toColor(),
                                           child: Column(
                                             children: [
@@ -311,7 +309,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                     Image.network(_imageUrl!),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: 25,
                                               ),
                                               IconButton(
                                                   onPressed: () {

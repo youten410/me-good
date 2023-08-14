@@ -254,7 +254,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                           IconButton(
                                               onPressed: () {
                                                 Share.share(
-                                                    '今日は$goodCountいいねしました');
+                                                    '今日は$goodCountいいねしました👏');
                                               },
                                               icon: Icon(
                                                 Icons.share,

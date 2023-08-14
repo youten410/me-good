@@ -247,10 +247,10 @@ class _GoodScreenState extends State<GoodScreen> {
                                             ),
                                           ),
                                           Container(
-                                              height: 400,
-                                              width: 250,
-                                              child: Image.asset(
-                                                  'assets/images/good_image.jpg')),
+                                            height: 200,
+                                            width: 200,
+                                            child: Image.network(_imageUrl!),
+                                          ),
                                           IconButton(
                                               onPressed: () {
                                                 Share.share(

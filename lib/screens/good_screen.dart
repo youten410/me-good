@@ -311,7 +311,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                     Image.network(_imageUrl!),
                                               ),
                                               SizedBox(
-                                                height: 30,
+                                                height: 10,
                                               ),
                                               IconButton(
                                                   onPressed: () {

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flat_3d_button/flat_3d_button.dart';
 import 'package:pushable_button/pushable_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:share_plus/share_plus.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -246,10 +247,19 @@ class _GoodScreenState extends State<GoodScreen> {
                                             ),
                                           ),
                                           Container(
-                                              height: 500,
-                                              width: 300,
+                                              height: 400,
+                                              width: 200,
                                               child: Image.asset(
-                                                  'assets/images/good_image.jpg'))
+                                                  'assets/images/good_image.jpg')),
+                                          IconButton(
+                                              onPressed: () {
+                                                Share.share(
+                                                    '今日は$goodCountいいねしました');
+                                              },
+                                              icon: Icon(
+                                                Icons.share,
+                                                size: 20,
+                                              ))
                                         ],
                                       ),
                                     )

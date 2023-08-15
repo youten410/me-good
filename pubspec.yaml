@@ -47,6 +47,7 @@ dependencies:
   share_plus: ^7.1.0
   http: ^1.1.0
   dart_openai: ^4.0.0
+  blur: ^3.1.0
   
 
 dev_dependencies:

@@ -352,12 +352,24 @@ class _GoodScreenState extends State<GoodScreen> {
               ),
             ),
           ),
+          if (isLoading)
+            Blur(
+              child: Container(
+                height: 800,
+                width: 400,
+              ),
+            ),
           // ローダーの表示
           if (isLoading)
             Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-                color: Colors.orange,
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                  backgroundColor: Colors.white,
+                  color: Colors.orange,
+                ),
               ),
             ),
         ],

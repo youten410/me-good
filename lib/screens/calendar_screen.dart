@@ -136,7 +136,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         Container(
           padding: EdgeInsets.only(left: 10, right: 10),
-          child: Text('いいね数 : $displayGoodCount\n\n★きろく★\n$displayComment'),
+          child: Text('いいね数 : $displayGoodCount\n★きろく★\n$displayComment'),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(20),

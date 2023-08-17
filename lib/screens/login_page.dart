@@ -34,31 +34,45 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Container(
-        height: 50,
-        width: 300,
-        child: SignInButton(Buttons.Google, text: "Sign up with Google",
-            onPressed: () async {
-          try {
-            final userCredential = await signInWithGoogle();
-            if (userCredential.user != null) {
-              print('Login Successful. User ID: ${userCredential.user!.uid}');
+      body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.orange[100]!,
+                Colors.orange[300]!,
+                Colors.orange[700]!,
+              ],
+            ),
+          ),
+          child: Center(
+            child: Container(
+              height: 50,
+              width: 300,
+              child: SignInButton(Buttons.Google, text: "Sign up with Google",
+                  onPressed: () async {
+                try {
+                  final userCredential = await signInWithGoogle();
+                  if (userCredential.user != null) {
+                    print(
+                        'Login Successful. User ID: ${userCredential.user!.uid}');
 
-              // 以下の行を修正
-              goRouter.go('/home');
-            } else {
-              print('Login Failed.');
-            }
-          } on FirebaseAuthException catch (e) {
-            print('FirebaseAuthException');
-            print('${e.code}');
-          } on Exception catch (e) {
-            print('Other Exception');
-            print('${e.toString()}');
-          }
-        }),
-      )),
+                    // 以下の行を修正
+                    goRouter.go('/home');
+                  } else {
+                    print('Login Failed.');
+                  }
+                } on FirebaseAuthException catch (e) {
+                  print('FirebaseAuthException');
+                  print('${e.code}');
+                } on Exception catch (e) {
+                  print('Other Exception');
+                  print('${e.toString()}');
+                }
+              }),
+            ),
+          )),
     );
   }
 }

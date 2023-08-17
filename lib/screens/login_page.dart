@@ -47,35 +47,44 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           child: Center(
-            child: Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: SignInButton(Buttons.Google, text: "Sign up with Google",
-                    onPressed: () async {
-                  try {
-                    final userCredential = await signInWithGoogle();
-                    if (userCredential.user != null) {
-                      print(
-                          'Login Successful. User ID: ${userCredential.user!.uid}');
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'me good',
+                  style: TextStyle(color: Colors.white, fontSize: 40),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 50,
+                  width: 250,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: SignInButton(Buttons.Google,
+                        text: "Sign up with Google", onPressed: () async {
+                      try {
+                        final userCredential = await signInWithGoogle();
+                        if (userCredential.user != null) {
+                          print(
+                              'Login Successful. User ID: ${userCredential.user!.uid}');
 
-                      goRouter.go('/home');
-                    } else {
-                      print('Login Failed.');
-                    }
-                  } on FirebaseAuthException catch (e) {
-                    print('FirebaseAuthException');
-                    print('${e.code}');
-                  } on Exception catch (e) {
-                    print('Other Exception');
-                    print('${e.toString()}');
-                  }
-                }),
-              ),
+                          goRouter.go('/home');
+                        } else {
+                          print('Login Failed.');
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        print('FirebaseAuthException');
+                        print('${e.code}');
+                      } on Exception catch (e) {
+                        print('Other Exception');
+                        print('${e.toString()}');
+                      }
+                    }),
+                  ),
+                ),
+              ],
             ),
           )),
     );

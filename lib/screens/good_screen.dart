@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart';
 import 'package:dart_openai/dart_openai.dart';
+import 'package:blur/blur.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});

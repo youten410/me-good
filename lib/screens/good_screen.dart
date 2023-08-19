@@ -9,6 +9,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:blur/blur.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:me_good/screens/login_page.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -18,11 +20,10 @@ class GoodScreen extends StatefulWidget {
 }
 
 class _GoodScreenState extends State<GoodScreen> {
-  final storage =
-      FirebaseStorage.instanceFor(bucket: "gs://me-good-2575b.appspot.com");
   TextEditingController _titleController = TextEditingController();
   bool _titleCompleted = false;
-  late String comment;
+  String comment = '';
+
   int goodCount = 0;
   late Timestamp date;
   bool _isElevated = true;
@@ -34,11 +35,24 @@ class _GoodScreenState extends State<GoodScreen> {
     goodCount = 0;
   }
 
-  void saveData(String date, int goodCount, String comment) async {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('UserGoodCounts');
-    // コレクション名は後でuserID(匿名)にする
+  // loginデータ取得
 
+  final storage =
+      FirebaseStorage.instanceFor(bucket: "gs://me-good-2575b.appspot.com");
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user;
+  String? uid;
+
+  void saveData(String date, int goodCount, String comment) async {
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      print("ユーザーはログインしていません");
+      return;
+    }
+
+    CollectionReference users = FirebaseFirestore.instance.collection(uid);
     users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
 
@@ -85,6 +99,15 @@ class _GoodScreenState extends State<GoodScreen> {
       setState(() {
         isLoading = false; // ローダー終了
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user = _auth.currentUser;
+    if (user != null) {
+      uid = user!.uid;
     }
   }
 

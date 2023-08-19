@@ -78,10 +78,11 @@ class _GoodScreenState extends State<GoodScreen> {
       OpenAI.apiKey = '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';
 
       final completion = await OpenAI.instance.completion.create(
-          model: "text-davinci-003",
-          prompt:
-              '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
-          maxTokens: 200);
+        model: "text-davinci-003",
+        prompt:
+            '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
+        maxTokens: 100,
+      );
 
       advice = completion.choices[0].text;
 

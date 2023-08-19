@@ -20,6 +20,9 @@ class _LoginPageState extends State<LoginPage> {
     final googleUser = await GoogleSignIn(scopes: [
       'email',
     ]).signIn();
+
+    // UserID取得
+    final String userId = _auth.currentUser!.uid;
     // リクエストから、認証情報を取得
     final googleAuth = await googleUser?.authentication;
     // クレデンシャルを新しく作成

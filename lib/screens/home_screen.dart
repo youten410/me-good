@@ -23,6 +23,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isLoading = false;
 
+  // ログアウト
+  void logoutUser() async {
+    await FirebaseAuth.instance.signOut();
+    goRouter.go('/');
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text("ログアウトしました。"),
+            actions: [
+              CupertinoDialogAction(
+                child: Text('OK'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
+  }
   String selectedValue = 'ログアウト';
   final lists = ['ログアウト', '退会', '問い合わせ'];
   Widget build(BuildContext context) {

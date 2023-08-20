@@ -11,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _tab = <Tab>[
-    Tab(text: 'いいね', icon: Icon(Icons.thumb_up)),
-    Tab(text: 'カレンダー', icon: Icon(Icons.calendar_month)),
+    Tab(text: 'いいね'),
+    Tab(text: 'カレンダー'),
   ];
 
   final focusNode = FocusNode();

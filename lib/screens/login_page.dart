@@ -14,22 +14,30 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
-  // Googleを使ってサインイン
-  Future<UserCredential> signInWithGoogle() async {
+  Future<UserCredential?> signInWithGoogle() async {
     // 認証フローのトリガー
     final googleUser = await GoogleSignIn(scopes: [
       'email',
     ]).signIn();
 
-    // UserID取得
-    final String userId = _auth.currentUser!.uid;
+    if (googleUser == null) {
+      // ユーザーがGoogleサインインをキャンセルまたは失敗した場合
+      return null;
+    }
+
     // リクエストから、認証情報を取得
-    final googleAuth = await googleUser?.authentication;
+    final googleAuth = await googleUser.authentication;
+
+    if (googleAuth == null) {
+      return null;
+    }
+
     // クレデンシャルを新しく作成
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
+
     // サインインしたら、UserCredentialを返す
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -67,22 +75,25 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(15.0),
                     child: SignInButton(Buttons.Google,
                         text: "Sign up with Google", onPressed: () async {
-                      try {
-                        final userCredential = await signInWithGoogle();
-                        if (userCredential.user != null) {
-                          print(
-                              'Login Successful. User ID: ${userCredential.user!.uid}');
+                      // 現在のユーザーを確認
+                      final currentUser = FirebaseAuth.instance.currentUser;
 
-                          goRouter.go('/home');
-                        } else {
-                          print('Login Failed.');
-                        }
-                      } on FirebaseAuthException catch (e) {
-                        print('FirebaseAuthException');
-                        print('${e.code}');
-                      } on Exception catch (e) {
-                        print('Other Exception');
-                        print('${e.toString()}');
+                      if (currentUser != null) {
+                        // ログイン済みの場合、直接ホームページにリダイレクト
+                        print('Already logged in. User ID: ${currentUser.uid}');
+                        goRouter.go('/home');
+                        return;
+                      }
+
+                      final userCredential = await signInWithGoogle();
+
+                      if (userCredential != null &&
+                          userCredential.user != null) {
+                        print(
+                            'Login Successful. User ID: ${userCredential.user!.uid}');
+                        goRouter.go('/home');
+                      } else {
+                        print('Login Failed.');
                       }
                     }),
                   ),

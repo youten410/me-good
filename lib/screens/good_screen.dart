@@ -278,7 +278,6 @@ class _GoodScreenState extends State<GoodScreen> {
                             String dateString = DateFormat('yyyy-MM-dd')
                                 .format(date); // 日付を文字列に変換
                             saveData(dateString, goodCount, comment);
-                            // モーダルの表示　バツボタンの位置は上に保持したい
                             showModalBottomSheet(
                                 backgroundColor:
                                     HSLColor.fromAHSL(1.0, 33, 1.0, 0.85)

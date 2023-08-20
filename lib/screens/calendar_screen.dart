@@ -75,9 +75,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     List dayEvents = getEventForDay(_selectedDay!);
     String displayComment =
-        dayEvents.isNotEmpty ? dayEvents[0].toString() : 'No Events';
+        dayEvents.isNotEmpty ? dayEvents[0].toString() : '記録はありません';
     String displayGoodCount =
-        dayEvents.isNotEmpty ? dayEvents[1].toString() : 'No Count';
+        dayEvents.isNotEmpty ? dayEvents[1].toString() : '記録はありませんs';
 
     return Column(
       children: [

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_good/screens/good_screen.dart';
@@ -41,8 +42,49 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         });
   }
+
+  // アカウント削除
+  void deleteUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+
+    if (uid == null) return; // uidがnullの場合は、処理を中断
+
+    // uidで指定されたコレクションのドキュメントをすべて取得
+    final userCollection = FirebaseFirestore.instance.collection(uid);
+    final docs = await userCollection.get();
+
+    // それぞれのドキュメントを削除
+    for (final doc in docs.docs) {
+      await doc.reference.delete();
+    }
+
+    // ユーザーを削除
+    await user?.delete();
+    await FirebaseAuth.instance.signOut();
+
+    print('ユーザーを削除しました!');
+
+    goRouter.go('/');
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text("ご利用ありがとうございました！"),
+            actions: [
+              CupertinoDialogAction(
+                child: Text('閉じる'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
+  }
+
   String selectedValue = 'ログアウト';
   final lists = ['ログアウト', '退会', '問い合わせ'];
+
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -73,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       logoutUser();
                     } else if (list == '退会') {
                       print('退会');
-                      //deleteUser();
+                      deleteUser();
                     } else {
                       print('問い合わせ');
                     }

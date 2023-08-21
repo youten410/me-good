@@ -79,82 +79,84 @@ class _CalendarScreenState extends State<CalendarScreen> {
     String displayGoodCount =
         dayEvents.isNotEmpty ? dayEvents[1].toString() : 'いいねはありません。';
 
-    return Column(
-      children: [
-        TableCalendar(
-          locale: 'ja_JP',
-          calendarStyle: CalendarStyle(
-            defaultTextStyle: TextStyle(fontSize: 20),
-            weekendTextStyle: TextStyle(fontSize: 20, color: Colors.red),
-            selectedDecoration: BoxDecoration(
-              color: Colors.orangeAccent,
-              shape: BoxShape.circle,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          TableCalendar(
+            locale: 'ja_JP',
+            calendarStyle: CalendarStyle(
+              defaultTextStyle: TextStyle(fontSize: 20),
+              weekendTextStyle: TextStyle(fontSize: 20, color: Colors.red),
+              selectedDecoration: BoxDecoration(
+                color: Colors.orangeAccent,
+                shape: BoxShape.circle,
+              ),
+              todayDecoration: BoxDecoration(
+                color: Color.fromARGB(255, 248, 155, 126),
+                shape: BoxShape.circle,
+              ),
             ),
-            todayDecoration: BoxDecoration(
-              color: Color.fromARGB(255, 248, 155, 126),
-              shape: BoxShape.circle,
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: _focusedDay,
+            eventLoader: getEventForDay,
+            calendarBuilders: CalendarBuilders(
+              markerBuilder: (context, date, events) {
+                if (events.isNotEmpty) {
+                  return _buildEventsMarker(date, events);
+                }
+                return null;
+              },
             ),
-          ),
-          firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: _focusedDay,
-          eventLoader: getEventForDay,
-          calendarBuilders: CalendarBuilders(
-            markerBuilder: (context, date, events) {
-              if (events.isNotEmpty) {
-                return _buildEventsMarker(date, events);
-              }
-              return null;
+            headerStyle: HeaderStyle(
+              titleTextStyle: TextStyle(fontSize: 22, color: Colors.black),
+              headerPadding: EdgeInsets.all(10),
+              formatButtonVisible: false,
+              leftChevronIcon: Icon(
+                Icons.arrow_left,
+                color: Colors.black,
+                size: 40,
+              ), // 左ボタン
+              rightChevronIcon: Icon(
+                Icons.arrow_right,
+                color: Colors.black,
+                size: 40,
+              ), // 右ボタン
+            ),
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
             },
+            onDaySelected: (selectedDay, focusedDay) {
+              if (!isSameDay(_selectedDay, selectedDay)) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              }
+            },
+            daysOfWeekHeight: 30,
+            daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyle(fontSize: 20),
+                weekendStyle: TextStyle(fontSize: 20)),
           ),
-          headerStyle: HeaderStyle(
-            titleTextStyle: TextStyle(fontSize: 22, color: Colors.black),
-            headerPadding: EdgeInsets.all(10),
-            formatButtonVisible: false,
-            leftChevronIcon: Icon(
-              Icons.arrow_left,
-              color: Colors.black,
-              size: 40,
-            ), // 左ボタン
-            rightChevronIcon: Icon(
-              Icons.arrow_right,
-              color: Colors.black,
-              size: 40,
-            ), // 右ボタン
+          SizedBox(
+            height: 20,
           ),
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) {
-            if (!isSameDay(_selectedDay, selectedDay)) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            }
-          },
-          daysOfWeekHeight: 30,
-          daysOfWeekStyle: DaysOfWeekStyle(
-              weekdayStyle: TextStyle(fontSize: 20),
-              weekendStyle: TextStyle(fontSize: 20)),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 10, right: 10),
-          child: Text('いいね数 : $displayGoodCount\n\n★コメント★\n$displayComment'),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-              bottom: Radius.circular(20),
+          Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Text('いいね数 : $displayGoodCount\n\n★コメント★\n$displayComment'),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+                bottom: Radius.circular(20),
+              ),
+              color: Colors.orange[100],
             ),
-            color: Colors.orange[100],
-          ),
-          height: 200,
-          width: 350,
-        )
-      ],
+            height: 200,
+            width: 350,
+          )
+        ],
+      ),
     );
   }
 

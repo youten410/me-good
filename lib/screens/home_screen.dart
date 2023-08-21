@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             centerTitle: true,
             title: Icon(Icons.developer_mode),
             leading: PopupMenuButton<String>(
+                constraints: BoxConstraints.expand(height: 150, width: 120),
                 icon: Icon(Icons.more_vert),
                 itemBuilder: (BuildContext context) {
                   return lists.map((String list) {

@@ -75,9 +75,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     List dayEvents = getEventForDay(_selectedDay!);
     String displayComment =
-        dayEvents.isNotEmpty ? dayEvents[0].toString() : '記録はありません';
+        dayEvents.isNotEmpty ? dayEvents[0].toString() : 'コメントはありません。';
     String displayGoodCount =
-        dayEvents.isNotEmpty ? dayEvents[1].toString() : '記録はありませんs';
+        dayEvents.isNotEmpty ? dayEvents[1].toString() : 'いいねはありません。';
 
     return Column(
       children: [
@@ -143,7 +143,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         Container(
           padding: EdgeInsets.only(left: 10, right: 10),
-          child: Text('いいね数 : $displayGoodCount\n★きろく★\n$displayComment'),
+          child: Text('いいね数 : $displayGoodCount\n\n★コメント★\n$displayComment'),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(20),

@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Icon(Icons.developer_mode),
+            title: Text('me good'),
             leading: PopupMenuButton<String>(
                 constraints: BoxConstraints.expand(height: 150, width: 120),
                 icon: Icon(Icons.more_vert),

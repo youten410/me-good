@@ -96,6 +96,39 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             centerTitle: true,
             title: Text('me good'),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    // notification
+                    showModalBottomSheet(
+                        backgroundColor:
+                            HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (BuildContext bc) {
+                          return Container(
+                            padding: EdgeInsets.only(top: 50.0),
+                            height: MediaQuery.of(context).size.height,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: Icon(Icons.close))
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  icon: Icon(Icons.notification_add))
+            ],
             leading: PopupMenuButton<String>(
                 constraints: BoxConstraints.expand(height: 150, width: 120),
                 icon: Icon(Icons.more_vert),

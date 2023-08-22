@@ -82,6 +82,18 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
+  // local notification
+  Future<void> notify() {
+    final flnp = FlutterLocalNotificationsPlugin();
+    return flnp
+        .initialize(
+          InitializationSettings(
+            iOS: DarwinInitializationSettings(),
+          ),
+        )
+        .then((_) => flnp.show(0, 'title', 'body', NotificationDetails()));
+  }
+
   String selectedValue = 'ログアウト';
   final lists = ['ログアウト', '退会', '問い合わせ'];
 

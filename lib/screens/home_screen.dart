@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String selectedValue = 'ログアウト';
   final lists = ['ログアウト', '退会', '問い合わせ'];
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -109,37 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
             centerTitle: true,
             title: Text('me good'),
             actions: [
-              IconButton(
-                  onPressed: () {
-                    // notification
-                    showModalBottomSheet(
-                        backgroundColor:
-                            HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext bc) {
-                          return Container(
-                            padding: EdgeInsets.only(top: 50.0),
-                            height: MediaQuery.of(context).size.height,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: Icon(Icons.close))
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  },
-                  icon: Icon(Icons.notification_add))
+              // 通知ボタン
+              notification_setting()
             ],
             leading: PopupMenuButton<String>(
                 constraints: BoxConstraints.expand(height: 150, width: 120),
@@ -203,7 +175,7 @@ class _notification_settingState extends State<notification_setting> {
 
   Timer? timer;
 
-  Future<void> selectTime(BuildContext context) async {
+  Future<TimeOfDay?> selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
@@ -217,12 +189,9 @@ class _notification_settingState extends State<notification_setting> {
     );
 
     if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-      });
+      return picked;
     }
-
-    print(selectTime);
+    return null;
   }
 
   @override
@@ -247,62 +216,68 @@ class _notification_settingState extends State<notification_setting> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          // notification
-          showModalBottomSheet(
-              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
-              context: context,
-              isScrollControlled: true,
-              builder: (BuildContext bc) {
-                return Container(
-                  padding: EdgeInsets.only(top: 50.0),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.close))
-                        ],
-                      ),
-                      Center(
-                        child: Container(
-                            child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 50,
+    return // この部分は _notification_settingState クラス内の build メソッドからの抜粋です。
+        IconButton(
+            onPressed: () {
+              // notification
+              showModalBottomSheet(
+                  backgroundColor:
+                      HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext bc) {
+                    return StatefulBuilder(builder:
+                        (BuildContext context, StateSetter setStateModal) {
+                      return Container(
+                        padding: EdgeInsets.only(top: 50.0),
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(Icons.close))
+                              ],
                             ),
-                            Text(
-                              '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
-                              style: TextStyle(fontSize: 40.0),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                selectTime(context);
-                              },
-                              child: const Text('Edit'),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
+                            Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
+                                    style: TextStyle(fontSize: 40.0),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      final picked = await selectTime(context);
+                                      if (picked != null &&
+                                          picked != selectedTime) {
+                                        setStateModal(() {
+                                          selectedTime = picked;
+                                        });
+                                      }
+                                    },
+                                    child: const Text('Edit'),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: 50,
-                            ),
                           ],
-                        )),
-                      ),
-                    ],
-                  ),
-                );
-              });
-        },
-        icon: Icon(Icons.notification_add));
+                        ),
+                      );
+                    });
+                  });
+            },
+            icon: Icon(Icons.notification_add));
   }
 }

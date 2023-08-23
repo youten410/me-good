@@ -268,93 +268,87 @@ class _notification_settingState extends State<notification_setting> {
 
   @override
   Widget build(BuildContext context) {
-    return // この部分は _notification_settingState クラス内の build メソッドからの抜粋です。
-        IconButton(
-            onPressed: () {
-              // notification
-              showModalBottomSheet(
-                  backgroundColor:
-                      HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext bc) {
-                    return StatefulBuilder(builder:
-                        (BuildContext context, StateSetter setStateModal) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 50.0),
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+    return IconButton(
+        onPressed: () {
+          // notification
+          showModalBottomSheet(
+              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext bc) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setStateModal) {
+                  return Container(
+                    padding: EdgeInsets.only(top: 0.0),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center, // この行を追加
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(Icons.close))
-                              ],
-                            ),
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
-                                    style: TextStyle(
-                                      fontSize: 60.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.deepOrange,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      final picked = await selectTime(context);
-                                      if (picked != null &&
-                                          picked != selectedTime) {
-                                        setStateModal(() {
-                                          selectedTime = picked;
-                                        });
-                                        notify(); // 選択された時刻が変更された後に通知をスケジュールします
-                                      }
-                                    },
-                                    child: const Text('Edit'),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.orange,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Switch(
-                                    value: _giveVerse,
-                                    activeColor: Colors.orange,
-                                    onChanged: (bool newValue) {
-                                      setStateModal(() {
-                                        _giveVerse = newValue;
-                                      });
-
-                                      if (newValue) {
-                                        notify();
-                                      }
-                                    },
-                                  )
-                                ],
-                              ),
-                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.close))
                           ],
                         ),
-                      );
-                    });
-                  });
-            },
-            icon: Icon(Icons.notification_add));
+                        Column(
+                          children: <Widget>[
+                            Text('リマインドタイム'),
+                            Text(
+                              '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
+                              style: TextStyle(
+                                fontSize: 50.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                final picked = await selectTime(context);
+                                if (picked != null && picked != selectedTime) {
+                                  setStateModal(() {
+                                    selectedTime = picked;
+                                  });
+                                  notify();
+                                }
+                              },
+                              child: const Text('Edit'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Switch(
+                              value: _giveVerse,
+                              activeColor: Colors.orange,
+                              onChanged: (bool newValue) {
+                                setStateModal(() {
+                                  _giveVerse = newValue;
+                                });
+
+                                if (newValue) {
+                                  notify();
+                                }
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                });
+              });
+        },
+        icon: Icon(Icons.notification_add));
   }
 }

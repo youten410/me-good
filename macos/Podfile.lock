@@ -699,6 +699,8 @@ PODS:
     - FirebaseCore (~> 10.0)
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - flutter_local_notifications (0.0.1):
+    - FlutterMacOS
   - flutter_localization (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -800,6 +802,7 @@ DEPENDENCIES:
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
+  - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
   - flutter_localization (from `Flutter/ephemeral/.symlinks/plugins/flutter_localization/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
@@ -836,6 +839,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   firebase_storage:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos
+  flutter_local_notifications:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
   flutter_localization:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_localization/macos
   FlutterMacOS:
@@ -863,6 +868,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: b342e37cd4f5b4454ec34308f073420e7920858e
   FirebaseFirestore: f94c9541515fa4a49af52269bbc50349009424b4
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
+  flutter_local_notifications: 3805ca215b2fb7f397d78b66db91f6a747af52e4
   flutter_localization: 4035848ae2ed142875d5fd3dde328250a5e81f42
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084

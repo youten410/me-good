@@ -179,9 +179,24 @@ class _notification_settingState extends State<notification_setting> {
       initialTime: selectedTime,
       initialEntryMode: TimePickerEntryMode.input,
       builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
+        return Theme(
+          data: Theme.of(context).copyWith(
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              dialBackgroundColor:
+                  HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              dialHandColor: Colors.deepOrangeAccent,
+              hourMinuteColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              hourMinuteTextColor: Colors.deepOrange,
+            ),
+            colorScheme: ColorScheme.light().copyWith(
+                primary: Colors.orange), // OKボタンとキャンセルボタンのテキストの色をオレンジに設定
+            hintColor: Colors.deepOrange,
+          ),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          ),
         );
       },
     );
@@ -285,15 +300,16 @@ class _notification_settingState extends State<notification_setting> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  SizedBox(
-                                    height: 250,
-                                  ),
                                   Text(
                                     '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
-                                    style: TextStyle(fontSize: 40.0),
+                                    style: TextStyle(
+                                      fontSize: 60.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.deepOrange,
+                                    ),
                                   ),
                                   SizedBox(
-                                    height: 50,
+                                    height: 30,
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
@@ -308,20 +324,24 @@ class _notification_settingState extends State<notification_setting> {
                                     },
                                     child: const Text('Edit'),
                                     style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
                                   Switch(
                                     value: _giveVerse,
+                                    activeColor: Colors.orange,
                                     onChanged: (bool newValue) {
                                       setStateModal(() {
                                         _giveVerse = newValue;
                                       });
 
                                       if (newValue) {
-                                        // _scheduleDailyNotification();
                                         notify();
                                       }
                                     },

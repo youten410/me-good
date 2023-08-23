@@ -34,6 +34,8 @@ Future<void> main() async {
     initializationSettings,
   );
 
+  tz.initializeTimeZones();
+
   runApp(const MyApp());
 }
 

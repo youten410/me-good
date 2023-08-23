@@ -1,11 +1,18 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:me_good/main.dart';
 import 'package:me_good/screens/good_screen.dart';
 import 'package:me_good/screens/calendar_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:me_good/router.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -80,18 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         });
-  }
-
-  // local notification
-  Future<void> notify() {
-    final flnp = FlutterLocalNotificationsPlugin();
-    return flnp
-        .initialize(
-          InitializationSettings(
-            iOS: DarwinInitializationSettings(),
-          ),
-        )
-        .then((_) => flnp.show(0, 'title', 'body', NotificationDetails()));
   }
 
   String selectedValue = 'ログアウト';
@@ -169,6 +164,9 @@ class notification_setting extends StatefulWidget {
 }
 
 class _notification_settingState extends State<notification_setting> {
+  final FlutterLocalNotificationsPlugin flnp =
+      FlutterLocalNotificationsPlugin();
+
   // 通知設定
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay nowTime = TimeOfDay.now();
@@ -194,9 +192,46 @@ class _notification_settingState extends State<notification_setting> {
     return null;
   }
 
+  Future<void> notify() async {
+    final jst = tz.getLocation('Asia/Tokyo'); // 日本のタイムゾーンを取得
+
+    // 選択された時間に基づく今日の日本時間を取得
+    final scheduledTime = tz.TZDateTime(
+        jst,
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        selectedTime.hour,
+        selectedTime.minute);
+
+    return flnp
+        .initialize(
+          InitializationSettings(
+            iOS: DarwinInitializationSettings(),
+          ),
+        )
+        .then((_) => flnp.zonedSchedule(
+              0,
+              'me good ',
+              '今日一日をふり返ろう👍',
+              scheduledTime,
+              NotificationDetails(
+                iOS: DarwinNotificationDetails(),
+              ),
+              uiLocalNotificationDateInterpretation:
+                  UILocalNotificationDateInterpretation.absoluteTime,
+              matchDateTimeComponents:
+                  DateTimeComponents.time, // 毎日の指定した時刻にマッチさせる
+            ));
+  }
+
   @override
   void initState() {
     super.initState();
+    var initializationSettingsIOS = DarwinInitializationSettings();
+    var initializationSettings =
+        InitializationSettings(iOS: initializationSettingsIOS);
+    flnp.initialize(initializationSettings);
 
     // 追加: 初期化時に現在時刻を1秒ごとに更新するTimerを設定
     timer = Timer.periodic(
@@ -268,6 +303,7 @@ class _notification_settingState extends State<notification_setting> {
                                         setStateModal(() {
                                           selectedTime = picked;
                                         });
+                                        notify(); // 選択された時刻が変更された後に通知をスケジュールします
                                       }
                                     },
                                     child: const Text('Edit'),
@@ -283,6 +319,11 @@ class _notification_settingState extends State<notification_setting> {
                                       setStateModal(() {
                                         _giveVerse = newValue;
                                       });
+
+                                      if (newValue) {
+                                        // _scheduleDailyNotification();
+                                        notify();
+                                      }
                                     },
                                   )
                                 ],

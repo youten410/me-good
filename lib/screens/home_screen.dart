@@ -248,9 +248,15 @@ class _notification_settingState extends State<notification_setting> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
+                                  SizedBox(
+                                    height: 250,
+                                  ),
                                   Text(
                                     '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
                                     style: TextStyle(fontSize: 40.0),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {

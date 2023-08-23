@@ -186,3 +186,123 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+class notification_setting extends StatefulWidget {
+  const notification_setting({
+    super.key,
+  });
+
+  @override
+  State<notification_setting> createState() => _notification_settingState();
+}
+
+class _notification_settingState extends State<notification_setting> {
+  // 通知設定
+  TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay nowTime = TimeOfDay.now();
+
+  Timer? timer;
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+      initialEntryMode: TimePickerEntryMode.input,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+      });
+    }
+
+    print(selectTime);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 追加: 初期化時に現在時刻を1秒ごとに更新するTimerを設定
+    timer = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer t) => setState(() {
+        nowTime = TimeOfDay.now();
+      }),
+    );
+  }
+
+  @override
+  void dispose() {
+    // 追加: Timerを破棄
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          // notification
+          showModalBottomSheet(
+              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext bc) {
+                return Container(
+                  padding: EdgeInsets.only(top: 50.0),
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.close))
+                        ],
+                      ),
+                      Center(
+                        child: Container(
+                            child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Text(
+                              '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
+                              style: TextStyle(fontSize: 40.0),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                selectTime(context);
+                              },
+                              child: const Text('Edit'),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                          ],
+                        )),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        },
+        icon: Icon(Icons.notification_add));
+  }
+}

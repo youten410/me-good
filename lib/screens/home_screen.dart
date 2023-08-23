@@ -214,6 +214,8 @@ class _notification_settingState extends State<notification_setting> {
     super.dispose();
   }
 
+  bool _giveVerse = false;
+
   @override
   Widget build(BuildContext context) {
     return // この部分は _notification_settingState クラス内の build メソッドからの抜粋です。
@@ -275,6 +277,14 @@ class _notification_settingState extends State<notification_setting> {
                                               BorderRadius.circular(20)),
                                     ),
                                   ),
+                                  Switch(
+                                    value: _giveVerse,
+                                    onChanged: (bool newValue) {
+                                      setStateModal(() {
+                                        _giveVerse = newValue;
+                                      });
+                                    },
+                                  )
                                 ],
                               ),
                             ),

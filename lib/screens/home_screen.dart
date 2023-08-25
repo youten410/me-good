@@ -260,10 +260,28 @@ class _notification_settingState extends State<notification_setting> {
     }
   }
 
+  // _giveVerseを保存する
+  Future<void> _saveGiveVerseState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("_giveVerse", _giveVerse);
+  }
+
+  // _giveVerseを読み込む
+  Future<void> _loadGiveVerseState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? storedState = prefs.getBool("_giveVerse");
+    if (storedState != null) {
+      setState(() {
+        _giveVerse = storedState;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _loadSelectedTime();
+    _loadGiveVerseState();
 
     var initializationSettingsIOS = DarwinInitializationSettings();
     var initializationSettings =
@@ -358,6 +376,8 @@ class _notification_settingState extends State<notification_setting> {
                                 setStateModal(() {
                                   _giveVerse = newValue;
                                 });
+
+                                _saveGiveVerseState();
 
                                 if (newValue) {
                                   notify();

@@ -13,6 +13,7 @@ import 'package:me_good/router.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -240,9 +241,30 @@ class _notification_settingState extends State<notification_setting> {
             ));
   }
 
+  // selectedTime を保存する
+  Future<void> _saveSelectedTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("selectedHour", selectedTime.hour);
+    await prefs.setInt("selectedMinute", selectedTime.minute);
+  }
+
+  // selectedTime を読み込む
+  Future<void> _loadSelectedTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? storedHour = prefs.getInt("selectedHour");
+    int? storedMinute = prefs.getInt("selectedMinute");
+    if (storedHour != null && storedMinute != null) {
+      setState(() {
+        selectedTime = TimeOfDay(hour: storedHour, minute: storedMinute);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadSelectedTime();
+
     var initializationSettingsIOS = DarwinInitializationSettings();
     var initializationSettings =
         InitializationSettings(iOS: initializationSettingsIOS);
@@ -315,6 +337,7 @@ class _notification_settingState extends State<notification_setting> {
                                   setStateModal(() {
                                     selectedTime = picked;
                                   });
+                                  _saveSelectedTime();
                                   notify();
                                 }
                               },

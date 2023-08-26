@@ -312,6 +312,9 @@ class _notification_settingState extends State<notification_setting> {
         onPressed: () {
           // notification
           showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
               backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
               context: context,
               isScrollControlled: true,
@@ -322,7 +325,7 @@ class _notification_settingState extends State<notification_setting> {
                     padding: EdgeInsets.only(top: 0.0),
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center, // この行を追加
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

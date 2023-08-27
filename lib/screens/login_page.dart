@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:me_good/router.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +13,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    // ウィジェットが初期化された直後にログイン状態をチェック
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _checkLoginStatus();
+    });
+    initialization();
+  }
+
+  void initialization() async {
+    // This is where you can initialize the resources needed by your app while
+    // the splash screen is displayed.  Remove the following example because
+    // delaying the user experience is a bad design practice!
+    // ignore_for_file: avoid_print
+    print('ready in 3...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('ready in 2...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('ready in 1...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('go!');
+    FlutterNativeSplash.remove();
+  }
+
   final _auth = FirebaseAuth.instance;
 
   Future<UserCredential?> signInWithGoogle() async {
@@ -40,6 +66,17 @@ class _LoginPageState extends State<LoginPage> {
 
     // サインインしたら、UserCredentialを返す
     return FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void _checkLoginStatus() async {
+    // 現在のユーザーを確認
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      // ログイン済みの場合、直接ホームページにリダイレクト
+      print('Already logged in. User ID: ${currentUser.uid}');
+      goRouter.go('/home');
+    }
   }
 
   @override
@@ -84,7 +121,6 @@ class _LoginPageState extends State<LoginPage> {
                         goRouter.go('/home');
                         return;
                       }
-
                       final userCredential = await signInWithGoogle();
 
                       if (userCredential != null &&

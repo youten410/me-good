@@ -143,6 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
               indicatorColor: HSLColor.fromAHSL(1.0, 10, 1.0, 0.75).toColor(),
               indicatorWeight: 5,
               tabs: _tab,
+              labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              unselectedLabelStyle:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
             ),
           ),
           body: TabBarView(children: <Widget>[

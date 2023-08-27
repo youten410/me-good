@@ -13,31 +13,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isInitialized = false;
   @override
   void initState() {
     super.initState();
-    // ウィジェットが初期化された直後にログイン状態をチェック
+    initialization();
+    //ウィジェットが初期化された直後にログイン状態をチェック
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _checkLoginStatus();
     });
-    initialization();
   }
 
   void initialization() async {
-    // This is where you can initialize the resources needed by your app while
-    // the splash screen is displayed.  Remove the following example because
-    // delaying the user experience is a bad design practice!
-    // ignore_for_file: avoid_print
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
+    print('wait...');
+    await Future.delayed(const Duration(seconds: 5));
+    print('Loading Done!');
     FlutterNativeSplash.remove();
   }
 
+  // 認証
   final _auth = FirebaseAuth.instance;
 
   Future<UserCredential?> signInWithGoogle() async {

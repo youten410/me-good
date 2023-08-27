@@ -22,8 +22,8 @@ environment:
   sdk: '>=3.0.6 <4.0.0'
 
 flutter_native_splash:
-  image: assets/images/splash.png 
-  color: "#FFA500"
+  image: assets/images/thumbs_good.png 
+  color: "#FFFFFF"
   ios_content_mode: center
 
 # Dependencies specify other packages that your package needs in order to work.

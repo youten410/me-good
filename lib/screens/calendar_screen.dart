@@ -109,19 +109,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
               },
             ),
             headerStyle: HeaderStyle(
-              titleTextStyle: TextStyle(fontSize: 22, color: Colors.black),
-              headerPadding: EdgeInsets.all(10),
+              titleCentered: true,
+              titleTextStyle: TextStyle(
+                  fontSize: 22,
+                  color: Colors.orangeAccent,
+                  fontWeight: FontWeight.bold),
+              headerPadding: EdgeInsets.all(30),
+              leftChevronVisible: false,
+              rightChevronVisible: false,
               formatButtonVisible: false,
-              leftChevronIcon: Icon(
-                Icons.arrow_left,
-                color: Colors.black,
-                size: 40,
-              ), // 左ボタン
-              rightChevronIcon: Icon(
-                Icons.arrow_right,
-                color: Colors.black,
-                size: 40,
-              ), // 右ボタン
+              // leftChevronIcon: Icon(
+              //   Icons.arrow_left,
+              //   color: Colors.black,
+              //   size: 40,
+              // ), // 左ボタン
+              // rightChevronIcon: Icon(
+              //   Icons.arrow_right,
+              //   color: Colors.black,
+              //   size: 40,
+              // ), // 右ボタン
             ),
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);

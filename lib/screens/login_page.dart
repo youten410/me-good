@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: SignInButton(Buttons.Google,
-                        text: "Sign up with Google", onPressed: () async {
+                        text: "Login with Google", onPressed: () async {
                       // 現在のユーザーを確認
                       final currentUser = FirebaseAuth.instance.currentUser;
 

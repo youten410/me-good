@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String selectedValue = 'ログアウト';
-  final lists = ['ログアウト', '退会', '問い合わせ'];
+  final lists = ['ログアウト', '退会'];
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
               notification_setting()
             ],
             leading: PopupMenuButton<String>(
-                constraints: BoxConstraints.expand(height: 150, width: 120),
+                constraints: BoxConstraints.expand(height: 110, width: 120),
                 icon: Icon(Icons.more_vert),
                 itemBuilder: (BuildContext context) {
                   return lists.map((String list) {

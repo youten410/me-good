@@ -175,7 +175,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     var goodCount = events.length > 1 ? events[1].toString() : "0";
 
     return Positioned(
-      right: 5,
+      right: -4,
       bottom: 5,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -183,14 +183,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
           shape: BoxShape.circle,
           color: Colors.orange[700],
         ),
-        width: 16.0,
-        height: 16.0,
+        width: 20.0,
+        height: 20.0,
         child: Center(
           child: Text(
             goodCount,
             style: TextStyle().copyWith(
               color: Colors.white,
-              fontSize: 12.0,
+              fontSize: 10.0,
             ),
           ),
         ),

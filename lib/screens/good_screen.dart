@@ -11,6 +11,7 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:blur/blur.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:me_good/screens/login_page.dart';
+import 'package:flutter/services.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -148,6 +149,7 @@ class _GoodScreenState extends State<GoodScreen> {
                       // いいねボタン
                       GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           setState(() {
                             _isElevated = !_isElevated;
                             goodCount++;

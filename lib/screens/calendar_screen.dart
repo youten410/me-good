@@ -77,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     String displayComment =
         dayEvents.isNotEmpty ? dayEvents[0].toString() : '・コメントはありません。';
     String displayGoodCount =
-        dayEvents.isNotEmpty ? dayEvents[1].toString() : '・いいねはありません。';
+        dayEvents.isNotEmpty ? dayEvents[1].toString() : '0';
 
     return SingleChildScrollView(
       child: Column(
@@ -149,11 +149,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             height: 20,
           ),
           Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Text(
-              '\n\nいいね数👍\n$displayGoodCount\n\nコメント📝\n$displayComment',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            width: 350,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20),
@@ -161,11 +157,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               color: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
             ),
-            height: 200,
-            width: 350,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              child: Text(
+                'いいね数❤️$displayGoodCount\n\n\コメント📝\n$displayComment',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           )
         ],
       ),
+      padding: EdgeInsets.only(bottom: 30),
     );
   }
 

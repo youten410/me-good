@@ -81,8 +81,8 @@ class _GoodScreenState extends State<GoodScreen> {
       final completion = await OpenAI.instance.completion.create(
         model: "text-davinci-003",
         prompt:
-            '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
-        maxTokens: 100,
+            '$commentに対して、カウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字ぴったりでお願いします。',
+        maxTokens: 200,
       );
 
       advice = completion.choices[0].text;
@@ -90,7 +90,7 @@ class _GoodScreenState extends State<GoodScreen> {
       print('アドバイス $advice');
 
       final image = await OpenAI.instance.image.create(
-        prompt: "$adviceの内容を表すような画像を生成してください。",
+        prompt: "$adviceの内容に対して、リラックスや休息をイメージする画像を生成してください。",
         n: 1,
         size: OpenAIImageSize.size256,
       );
@@ -209,7 +209,7 @@ class _GoodScreenState extends State<GoodScreen> {
                             Icon(
                               Icons.favorite,
                               color: Colors.deepOrangeAccent,
-                              size: 70,
+                              size: 100,
                             )
                           ],
                         ),
@@ -318,7 +318,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                 padding: EdgeInsets.only(
                                                     right: 20.0, left: 20.0),
                                                 child: Text(
-                                                  '$advice(AIアドバイス)',
+                                                  '$advice\n(AIアドバイス)',
                                                   style: TextStyle(
                                                       fontSize: 25,
                                                       fontWeight:
@@ -345,6 +345,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                   icon: Icon(
                                                     Icons.share,
                                                     size: 30,
+                                                    color: Colors.orangeAccent,
                                                   ))
                                             ],
                                           ),

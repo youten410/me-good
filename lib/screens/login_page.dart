@@ -102,6 +102,17 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   height: 50,
                   width: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: SignInButton(Buttons.Google,

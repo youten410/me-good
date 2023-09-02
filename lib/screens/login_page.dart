@@ -36,35 +36,54 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
   Future<UserCredential?> signInWithGoogle() async {
-    // 認証フローのトリガー
     final googleUser = await GoogleSignIn(scopes: [
       'email',
     ]).signIn();
 
     if (googleUser == null) {
-      // ユーザーがGoogleサインインをキャンセルまたは失敗した場合
       return null;
     }
 
-    // リクエストから、認証情報を取得
     final googleAuth = await googleUser.authentication;
 
     if (googleAuth == null) {
       return null;
     }
 
-    // クレデンシャルを新しく作成
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    // サインインしたら、UserCredentialを返す
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<void> signInWithApple() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+      print(
+          'Successfully logged in with Apple. User ID: ${userCredential.user!.uid}');
+      goRouter.go('/home');
+    } catch (error) {
+      print('Error occurred during Apple Sign In: $error');
+    }
+  }
+
   void _checkLoginStatus() async {
-    // 現在のユーザーを確認
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
@@ -103,40 +122,11 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   height: 50,
                   width: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
-                    child: SignInButton(Buttons.Google,
-                        text: "Login with Google", onPressed: () async {
-                      // 現在のユーザーを確認
-                      final currentUser = FirebaseAuth.instance.currentUser;
-
-                      if (currentUser != null) {
-                        // ログイン済みの場合、直接ホームページにリダイレクト
-                        print('Already logged in. User ID: ${currentUser.uid}');
-                        goRouter.go('/home');
-                        return;
-                      }
-                      final userCredential = await signInWithGoogle();
-
-                      if (userCredential != null &&
-                          userCredential.user != null) {
-                        print(
-                            'Login Successful. User ID: ${userCredential.user!.uid}');
-                        goRouter.go('/home');
-                      } else {
-                        print('Login Failed.');
-                      }
+                    child: SignInButton(Buttons.AppleDark,
+                        text: "Sign in with Apple", onPressed: () async {
+                      signInWithApple();
                     }),
                   ),
                 ),
@@ -146,34 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   height: 50,
                   width: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: SignInButton(
-                      Buttons.Apple,
+                      Buttons.Google,
                       onPressed: () async {
-                        final credential =
-                            await SignInWithApple.getAppleIDCredential(
-                          scopes: [
-                            AppleIDAuthorizationScopes.email,
-                            AppleIDAuthorizationScopes.fullName,
-                          ],
-                        );
-
-                        print(credential);
-
-                        // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                        // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                        signInWithGoogle();
                       },
                     ),
                   ),

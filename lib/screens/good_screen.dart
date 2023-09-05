@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +12,6 @@ import 'package:http/http.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:blur/blur.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:me_good/screens/login_page.dart';
 import 'package:flutter/services.dart';
 
 class GoodScreen extends StatefulWidget {
@@ -36,24 +37,38 @@ class _GoodScreenState extends State<GoodScreen> {
     goodCount = 0;
   }
 
-  // loginデータ取得
-
-  final storage =
-      FirebaseStorage.instanceFor(bucket: "gs://me-good-2575b.appspot.com");
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
   String? uid;
 
-  void saveData(String date, int goodCount, String comment) async {
-    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+  @override
+  void initState() {
+    super.initState();
+    _getDeviceId().then((deviceId) {
+      setState(() {
+        uid = deviceId;
+      });
+    });
+  }
 
-    if (uid == null) {
-      print("ユーザーはログインしていません");
-      return;
+  Future<String?> _getDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        var build = await deviceInfoPlugin.androidInfo;
+        return build.id; // AndroidのデバイスID
+      } else if (Platform.isIOS) {
+        var data = await deviceInfoPlugin.iosInfo;
+        return data.identifierForVendor; // iOSのデバイスID
+      }
+    } catch (e) {
+      print('Failed to get device ID: $e');
     }
+    return "unknown";
+  }
 
-    CollectionReference users = FirebaseFirestore.instance.collection(uid);
+  void saveData(String date, int goodCount, String comment) async {
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    CollectionReference users = FirebaseFirestore.instance.collection(uid!);
     users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
 
@@ -101,15 +116,6 @@ class _GoodScreenState extends State<GoodScreen> {
       setState(() {
         isLoading = false; // ローダー終了
       });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    user = _auth.currentUser;
-    if (user != null) {
-      uid = user!.uid;
     }
   }
 
@@ -329,8 +335,8 @@ class _GoodScreenState extends State<GoodScreen> {
                                                 height: 20,
                                               ),
                                               Container(
-                                                height: 250,
-                                                width: 250,
+                                                height: 200,
+                                                width: 200,
                                                 child:
                                                     Image.network(_imageUrl!),
                                               ),

@@ -1,9 +1,11 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -20,25 +22,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
   String? uid;
 
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
-    user = _auth.currentUser;
-    if (user != null) {
-      uid = user!.uid;
-    }
 
-    final _collectionRef = FirebaseFirestore.instance.collection(uid!);
-    fetchCommentsByDate().then((fetchedData) {
-      setState(() {
-        _eventsList = fetchedData;
+    _getDeviceId().then((deviceId) {
+      uid = deviceId;
+
+      final _collectionRef = FirebaseFirestore.instance.collection(uid!);
+      fetchCommentsByDate().then((fetchedData) {
+        setState(() {
+          _eventsList = fetchedData;
+        });
       });
     });
+  }
+
+  Future<String?> _getDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        var build = await deviceInfoPlugin.androidInfo;
+        return build.id; // AndroidのデバイスID
+      } else if (Platform.isIOS) {
+        var data = await deviceInfoPlugin.iosInfo;
+        return data.identifierForVendor; // iOSのデバイスID
+      }
+    } catch (e) {
+      print('Failed to get device ID: $e');
+    }
+    return "unknown";
   }
 
   Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {

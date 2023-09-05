@@ -104,14 +104,14 @@ class _GoodScreenState extends State<GoodScreen> {
 
       print('アドバイス $advice');
 
-      // final image = await OpenAI.instance.image.create(
-      //   prompt: "$adviceの内容に対して、リラックスや休息をイメージする画像を生成してください。",
-      //   n: 1,
-      //   size: OpenAIImageSize.size256,
-      // );
-      // _imageUrl = image.data.first.url;
+      final image = await OpenAI.instance.image.create(
+        prompt: "$adviceの内容に対して、リラックスや休息をイメージする画像を生成してください。",
+        n: 1,
+        size: OpenAIImageSize.size256,
+      );
+      _imageUrl = image.data.first.url;
 
-      // print(_imageUrl);
+      print(_imageUrl);
     } finally {
       setState(() {
         isLoading = false; // ローダー終了
@@ -334,12 +334,12 @@ class _GoodScreenState extends State<GoodScreen> {
                                               SizedBox(
                                                 height: 20,
                                               ),
-                                              // Container(
-                                              //   height: 250,
-                                              //   width: 250,
-                                              //   child:
-                                              //       Image.network(_imageUrl!),
-                                              // ),
+                                              Container(
+                                                height: 200,
+                                                width: 200,
+                                                child:
+                                                    Image.network(_imageUrl!),
+                                              ),
                                               SizedBox(
                                                 height: 25,
                                               ),

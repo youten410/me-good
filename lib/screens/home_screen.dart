@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_good/main.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:me_good/screens/good_screen.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,6 +33,82 @@ class _HomeScreenState extends State<HomeScreen> {
   final focusNode = FocusNode();
 
   bool isLoading = false;
+
+  Future<String?> getDeviceId() async {
+    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        var build = await deviceInfoPlugin.androidInfo;
+        return build.id; // AndroidのデバイスID
+      } else if (Platform.isIOS) {
+        var data = await deviceInfoPlugin.iosInfo;
+        return data.identifierForVendor; // iOSのデバイスID
+      }
+    } catch (e) {
+      print('Failed to get device ID: $e');
+    }
+    return "unknown";
+  }
+
+  // データ削除
+  void showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("全てのきろくを削除しますか?"),
+          content: Text("この操作は取り消せません。"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text('キャンセル'),
+              onPressed: () => Navigator.pop(context),
+            ),
+            CupertinoDialogAction(
+              child: Text('OK'),
+              onPressed: () async {
+                deleteData();
+                Navigator.pop(context);
+              },
+              isDestructiveAction: true, // これにより、ボタンが赤くなります（危険な操作を示すため）
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteData() async {
+    final deviceId = await getDeviceId();
+
+    if (deviceId == "unknown") return; // デバイスIDが取得できない場合は、処理を中断
+
+    // deviceIdで指定されたコレクションのドキュメントをすべて取得
+    final userCollection = FirebaseFirestore.instance.collection(deviceId!);
+    final docs = await userCollection.get();
+
+    // それぞれのドキュメントを削除
+    for (final doc in docs.docs) {
+      await doc.reference.delete();
+    }
+
+    print('データを削除しました!');
+
+    goRouter.go('/');
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text("データを削除しました!"),
+            actions: [
+              CupertinoDialogAction(
+                child: Text('閉じる'),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
               unselectedLabelStyle:
                   const TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
             ),
+            leading: IconButton(
+                onPressed: () => showDeleteConfirmationDialog(context),
+                icon: Icon(Icons.delete)),
           ),
           body: TabBarView(children: <Widget>[
             GoodScreen(),

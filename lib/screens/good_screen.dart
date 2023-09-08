@@ -42,14 +42,14 @@ class _GoodScreenState extends State<GoodScreen> {
   @override
   void initState() {
     super.initState();
-    _getDeviceId().then((deviceId) {
+    getDeviceId().then((deviceId) {
       setState(() {
         uid = deviceId;
       });
     });
   }
 
-  Future<String?> _getDeviceId() async {
+  Future<String?> getDeviceId() async {
     final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {

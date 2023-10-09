@@ -85,7 +85,7 @@ class _GoodScreenState extends State<GoodScreen> {
     });
 
     try {
-      OpenAI.apiKey = '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';
+      OpenAI.apiKey = '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';
 
       final completion = await OpenAI.instance.completion.create(
         model: "text-davinci-003",

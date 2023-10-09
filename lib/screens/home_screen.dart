@@ -21,8 +21,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _tab = <Tab>[
-    Tab(text: 'いいね'),
-    Tab(text: 'カレンダー'),
+    const Tab(text: 'いいね'),
+    const Tab(text: 'カレンダー'),
   ];
 
   final focusNode = FocusNode();
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
 
   Future<String?> getDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
         var build = await deviceInfoPlugin.androidInfo;
@@ -94,10 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: Text("データを削除しました!"),
+            title: const Text("データを削除しました!"),
             actions: [
               CupertinoDialogAction(
-                child: Text('閉じる'),
+                child: const Text('閉じる'),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text('me good'),
+            title: const Text('me good'),
             actions: [
               // 通知ボタン
               notification_setting()

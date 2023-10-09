@@ -4,14 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flat_3d_button/flat_3d_button.dart';
 import 'package:pushable_button/pushable_button.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:http/http.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:blur/blur.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 class GoodScreen extends StatefulWidget {
@@ -22,8 +18,8 @@ class GoodScreen extends StatefulWidget {
 }
 
 class _GoodScreenState extends State<GoodScreen> {
-  TextEditingController _titleController = TextEditingController();
-  bool _titleCompleted = false;
+  final TextEditingController _titleController = TextEditingController();
+  bool titleCompleted = false;
   String comment = '';
 
   int goodCount = 0;
@@ -50,7 +46,7 @@ class _GoodScreenState extends State<GoodScreen> {
   }
 
   Future<String?> getDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
         var build = await deviceInfoPlugin.androidInfo;
@@ -66,8 +62,6 @@ class _GoodScreenState extends State<GoodScreen> {
   }
 
   void saveData(String date, int goodCount, String comment) async {
-    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
     CollectionReference users = FirebaseFirestore.instance.collection(uid!);
     users.doc(date).set({'goodCount': goodCount, 'comment': comment});
   }
@@ -91,7 +85,7 @@ class _GoodScreenState extends State<GoodScreen> {
     });
 
     try {
-      OpenAI.apiKey = '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';
+      OpenAI.apiKey = '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';
 
       final completion = await OpenAI.instance.completion.create(
         model: "text-davinci-003",
@@ -123,7 +117,7 @@ class _GoodScreenState extends State<GoodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+      backgroundColor: const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
       body: Stack(
         children: <Widget>[
           // ここからが本来のコンテンツ
@@ -135,19 +129,19 @@ class _GoodScreenState extends State<GoodScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                   Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 200,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 "♡ $goodCount",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 20, color: Colors.orangeAccent),
                               ),
                             ]),
@@ -161,7 +155,7 @@ class _GoodScreenState extends State<GoodScreen> {
                             goodCount++;
                           });
                           // 1秒後に元の状態に戻す
-                          Future.delayed(Duration(milliseconds: 500), () {
+                          Future.delayed(const Duration(milliseconds: 500), () {
                             setState(() {
                               _isElevated = true;
                             });
@@ -177,8 +171,9 @@ class _GoodScreenState extends State<GoodScreen> {
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
-                                color: HSLColor.fromAHSL(1.0, 40, 1.0, 0.75)
-                                    .toColor(), // 面の色
+                                color:
+                                    const HSLColor.fromAHSL(1.0, 40, 1.0, 0.75)
+                                        .toColor(), // 面の色
                                 borderRadius: BorderRadius.circular(100),
                                 boxShadow: _isElevated
                                     ? [
@@ -212,7 +207,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                       ],
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.favorite,
                               color: Colors.deepOrangeAccent,
                               size: 100,
@@ -222,7 +217,7 @@ class _GoodScreenState extends State<GoodScreen> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   // テキストフィールド
@@ -242,7 +237,7 @@ class _GoodScreenState extends State<GoodScreen> {
                             child: TextFormField(
                                 focusNode: focusNode,
                                 controller: _titleController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'コメント',
                                   hintStyle: TextStyle(
                                       fontSize: 15,
@@ -252,27 +247,20 @@ class _GoodScreenState extends State<GoodScreen> {
                                 ),
                                 maxLength: 100,
                                 maxLines: null,
-                                style: TextStyle(fontSize: 15),
+                                style: const TextStyle(fontSize: 15),
                                 onChanged: (text) => setState(() {
-                                      _titleCompleted = text.isNotEmpty;
+                                      titleCompleted = text.isNotEmpty;
                                       comment =
                                           _titleController.text.toString();
                                     })))),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: 300,
                       child: PushableButton(
-                        child: const Text(
-                          'きろく',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
                         height: 60,
                         elevation: 8,
                         hslColor: const HSLColor.fromAHSL(1.0, 30, 1.0, 0.75),
@@ -366,11 +354,11 @@ class _GoodScreenState extends State<GoodScreen> {
                                 context: context,
                                 builder: (context) {
                                   return CupertinoAlertDialog(
-                                    title: Text("未入力です"),
-                                    content: Text("「いいね」と「コメント」両方入力してね"),
+                                    title: const Text("未入力です"),
+                                    content: const Text("「いいね」と「コメント」両方入力してね"),
                                     actions: [
                                       CupertinoDialogAction(
-                                        child: Text('OK'),
+                                        child: const Text('OK'),
                                         onPressed: () => Navigator.pop(context),
                                       ),
                                     ],
@@ -378,6 +366,13 @@ class _GoodScreenState extends State<GoodScreen> {
                                 });
                           }
                         },
+                        child: const Text(
+                          'きろく',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -386,15 +381,15 @@ class _GoodScreenState extends State<GoodScreen> {
             ),
           ),
           if (isLoading)
-            Blur(
-              child: Container(
+            const Blur(
+              child: SizedBox(
                 height: 800,
                 width: 400,
               ),
             ),
           // ローダーの表示
           if (isLoading)
-            Center(
+            const Center(
               child: SizedBox(
                 height: 100,
                 width: 100,

@@ -1,18 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:me_good/router.dart';
-import 'package:me_good/screens/good_screen.dart';
-import 'package:me_good/screens/calendar_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+import 'package:me_good/firebase_options.dart';
+import "package:timezone/data/latest_all.dart" as tz;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'router.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -23,7 +16,8 @@ Future<void> main() async {
   await Future.delayed(Duration(seconds: 3));
   FlutterNativeSplash.remove();
 
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // notification
   DarwinInitializationSettings initializationSettingsIOS =

@@ -4,8 +4,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart' show DeviceInfoPlugin;
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -42,7 +41,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future<String?> _getDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
         var build = await deviceInfoPlugin.androidInfo;
@@ -60,10 +59,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Future<Map<DateTime, List<dynamic>>> fetchCommentsByDate() async {
     Map<DateTime, List<dynamic>> dateCommentMap = {};
 
-    final _collectionRef = FirebaseFirestore.instance.collection(uid!);
+    final collectionRef = FirebaseFirestore.instance.collection(uid!);
 
     try {
-      QuerySnapshot querySnapshot = await _collectionRef.get();
+      QuerySnapshot querySnapshot = await collectionRef.get();
       for (QueryDocumentSnapshot doc in querySnapshot.docs) {
         String dateString = doc.id;
         DateTime parsedDate = DateTime.parse(dateString);
@@ -73,20 +72,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
       }
       return dateCommentMap;
     } catch (e) {
-      print("Error fetching data: $e");
       return dateCommentMap;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final _events = LinkedHashMap<DateTime, List>(
+    final events = LinkedHashMap<DateTime, List>(
       equals: isSameDay,
       hashCode: getHashCode,
     )..addAll(_eventsList);
 
     List getEventForDay(DateTime day) {
-      return _events[day] ?? [];
+      return events[day] ?? [];
     }
 
     List dayEvents = getEventForDay(_selectedDay!);
@@ -96,11 +94,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
         dayEvents.isNotEmpty ? dayEvents[1].toString() : '0';
 
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 30),
       child: Column(
         children: [
           TableCalendar(
             locale: 'ja_JP',
-            calendarStyle: CalendarStyle(
+            calendarStyle: const CalendarStyle(
               defaultTextStyle: TextStyle(fontSize: 20),
               weekendTextStyle: TextStyle(fontSize: 20, color: Colors.red),
               selectedDecoration: BoxDecoration(
@@ -124,7 +123,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 return null;
               },
             ),
-            headerStyle: HeaderStyle(
+            headerStyle: const HeaderStyle(
               titleCentered: true,
               titleTextStyle: TextStyle(
                   fontSize: 22,
@@ -134,16 +133,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
               leftChevronVisible: false,
               rightChevronVisible: false,
               formatButtonVisible: false,
-              // leftChevronIcon: Icon(
-              //   Icons.arrow_left,
-              //   color: Colors.black,
-              //   size: 40,
-              // ), // 左ボタン
-              // rightChevronIcon: Icon(
-              //   Icons.arrow_right,
-              //   color: Colors.black,
-              //   size: 40,
-              // ), // 右ボタン
             ),
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
@@ -157,33 +146,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
               }
             },
             daysOfWeekHeight: 30,
-            daysOfWeekStyle: DaysOfWeekStyle(
+            daysOfWeekStyle: const DaysOfWeekStyle(
                 weekdayStyle: TextStyle(fontSize: 20),
                 weekendStyle: TextStyle(fontSize: 20)),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
             width: 350,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(
+              borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
                 bottom: Radius.circular(20),
               ),
-              color: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              color: const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
             ),
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: Text(
                 'いいね数❤️$displayGoodCount\n\n\コメント📝\n$displayComment',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           )
         ],
       ),
-      padding: EdgeInsets.only(bottom: 30),
     );
   }
 
@@ -204,7 +192,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Center(
           child: Text(
             goodCount,
-            style: TextStyle().copyWith(
+            style: const TextStyle().copyWith(
               color: Colors.white,
               fontSize: 10.0,
             ),

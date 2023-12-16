@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/services.dart';
+import 'package:me_good/key.dart';
 
 class GoodScreen extends StatefulWidget {
   const GoodScreen({super.key});
@@ -85,7 +86,7 @@ class _GoodScreenState extends State<GoodScreen> {
     });
 
     try {
-      OpenAI.apiKey = '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';
+      OpenAI.apiKey = key;
 
       final completion = await OpenAI.instance.completion.create(
         model: "text-davinci-003",

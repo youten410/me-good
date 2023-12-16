@@ -10,7 +10,7 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
         path: '/',
         pageBuilder: (context, state) {
-          return MaterialPage(child: HomeScreen());
+          return const MaterialPage(child: HomeScreen());
         }),
   ],
 );

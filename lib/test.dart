@@ -6,7 +6,9 @@ void main() async {
 }
 
 Future<void> getAdvice(comment) async {
-  OpenAI.apiKey = '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';
+  const key =
+      "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"; //String.fromEnvironment('OPEN_AI_API_KEY');
+  OpenAI.apiKey = key;
 
   // Start using!
   final completion = await OpenAI.instance.completion.create(

@@ -275,15 +275,16 @@ class _GoodScreenState extends State<GoodScreen> {
                             String dateString = DateFormat('yyyy-MM-dd')
                                 .format(date); // 日付を文字列に変換
                             saveData(dateString, goodCount, comment);
+                            // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                                 backgroundColor:
-                                    HSLColor.fromAHSL(1.0, 33, 1.0, 0.85)
+                                    const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85)
                                         .toColor(),
                                 context: context,
                                 isScrollControlled: true,
                                 builder: (BuildContext bc) {
                                   return Container(
-                                    padding: EdgeInsets.only(top: 50.0),
+                                    padding: const EdgeInsets.only(top: 50.0),
                                     height: MediaQuery.of(context).size.height,
                                     child: Column(
                                       mainAxisAlignment:
@@ -300,27 +301,27 @@ class _GoodScreenState extends State<GoodScreen> {
                                                     resetData();
                                                   });
                                                 },
-                                                icon: Icon(Icons.close))
+                                                icon: const Icon(Icons.close))
                                           ],
                                         ),
                                         Container(
-                                          color: HSLColor.fromAHSL(
+                                          color: const HSLColor.fromAHSL(
                                                   1.0, 33, 1.0, 0.85)
                                               .toColor(),
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     right: 20.0, left: 20.0),
                                                 child: Text(
                                                   '$advice\n(AIアドバイス)',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 25,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 20,
                                               ),
                                               Container(
@@ -329,7 +330,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                 child:
                                                     Image.network(_imageUrl!),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 25,
                                               ),
                                               IconButton(
@@ -337,7 +338,7 @@ class _GoodScreenState extends State<GoodScreen> {
                                                     Share.share(
                                                         '今日は$goodCountいいねしました👏');
                                                   },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.share,
                                                     size: 30,
                                                     color: Colors.orangeAccent,

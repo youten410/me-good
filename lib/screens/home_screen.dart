@@ -50,15 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text("全てのきろくを削除しますか?"),
-          content: Text("この操作は取り消せません。"),
+          title: const Text("全てのきろくを削除しますか?"),
+          content: const Text("この操作は取り消せません。"),
           actions: [
             CupertinoDialogAction(
-              child: Text('キャンセル'),
+              child: const Text('キャンセル'),
               onPressed: () => Navigator.pop(context),
             ),
             CupertinoDialogAction(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () async {
                 deleteData();
                 Navigator.pop(context);
@@ -85,10 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
       await doc.reference.delete();
     }
 
-    print('データを削除しました!');
-
     goRouter.go('/');
 
+    // ignore: use_build_context_synchronously
     showDialog(
         context: context,
         builder: (context) {
@@ -116,27 +115,30 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             centerTitle: true,
             title: const Text('me good'),
-            actions: [
+            actions: const [
               // 通知ボタン
               notification_setting()
             ],
             toolbarHeight: 50,
             elevation: 0.0,
-            backgroundColor: HSLColor.fromAHSL(1.0, 30, 1.0, 0.75).toColor(),
+            backgroundColor:
+                const HSLColor.fromAHSL(1.0, 30, 1.0, 0.75).toColor(),
             //shadowColor: Colors.black,
             bottom: TabBar(
-              indicatorColor: HSLColor.fromAHSL(1.0, 10, 1.0, 0.75).toColor(),
+              indicatorColor:
+                  const HSLColor.fromAHSL(1.0, 10, 1.0, 0.75).toColor(),
               indicatorWeight: 5,
               tabs: _tab,
-              labelStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              labelStyle:
+                  const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               unselectedLabelStyle:
                   const TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
             ),
             leading: IconButton(
                 onPressed: () => showDeleteConfirmationDialog(context),
-                icon: Icon(Icons.delete)),
+                icon: const Icon(Icons.delete)),
           ),
-          body: TabBarView(children: <Widget>[
+          body: const TabBarView(children: <Widget>[
             GoodScreen(),
             CalendarScreen(),
           ]),
@@ -174,14 +176,16 @@ class _notification_settingState extends State<notification_setting> {
         return Theme(
           data: Theme.of(context).copyWith(
             timePickerTheme: TimePickerThemeData(
-              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              backgroundColor:
+                  const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
               dialBackgroundColor:
-                  HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+                  const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
               dialHandColor: Colors.deepOrangeAccent,
-              hourMinuteColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              hourMinuteColor:
+                  const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
               hourMinuteTextColor: Colors.deepOrange,
             ),
-            colorScheme: ColorScheme.light().copyWith(
+            colorScheme: const ColorScheme.light().copyWith(
                 primary: Colors.orange), // OKボタンとキャンセルボタンのテキストの色をオレンジに設定
             hintColor: Colors.deepOrange,
           ),
@@ -213,7 +217,7 @@ class _notification_settingState extends State<notification_setting> {
 
     return flnp
         .initialize(
-          InitializationSettings(
+          const InitializationSettings(
             iOS: DarwinInitializationSettings(),
           ),
         )
@@ -222,7 +226,7 @@ class _notification_settingState extends State<notification_setting> {
               'me good ',
               '今日一日をふり返ろう👍',
               scheduledTime,
-              NotificationDetails(
+              const NotificationDetails(
                 iOS: DarwinNotificationDetails(),
               ),
               uiLocalNotificationDateInterpretation:
@@ -274,14 +278,14 @@ class _notification_settingState extends State<notification_setting> {
     _loadSelectedTime();
     _loadGiveVerseState();
 
-    var initializationSettingsIOS = DarwinInitializationSettings();
+    var initializationSettingsIOS = const DarwinInitializationSettings();
     var initializationSettings =
         InitializationSettings(iOS: initializationSettingsIOS);
     flnp.initialize(initializationSettings);
 
     // 追加: 初期化時に現在時刻を1秒ごとに更新するTimerを設定
     timer = Timer.periodic(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       (Timer t) => setState(() {
         nowTime = TimeOfDay.now();
       }),
@@ -306,14 +310,15 @@ class _notification_settingState extends State<notification_setting> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
               ),
-              backgroundColor: HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
+              backgroundColor:
+                  const HSLColor.fromAHSL(1.0, 33, 1.0, 0.85).toColor(),
               context: context,
               isScrollControlled: true,
               builder: (BuildContext bc) {
                 return StatefulBuilder(
                     builder: (BuildContext context, StateSetter setStateModal) {
                   return Container(
-                    padding: EdgeInsets.only(top: 0.0),
+                    padding: const EdgeInsets.only(top: 0.0),
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -325,21 +330,21 @@ class _notification_settingState extends State<notification_setting> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(Icons.close))
+                                icon: const Icon(Icons.close))
                           ],
                         ),
                         Column(
                           children: <Widget>[
-                            Text('リマインドタイム'),
+                            const Text('リマインドタイム'),
                             Text(
                               '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 50.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.deepOrange,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             ElevatedButton(
@@ -360,7 +365,7 @@ class _notification_settingState extends State<notification_setting> {
                                     borderRadius: BorderRadius.circular(20)),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Switch(
@@ -386,6 +391,6 @@ class _notification_settingState extends State<notification_setting> {
                 });
               });
         },
-        icon: Icon(Icons.notification_add));
+        icon: const Icon(Icons.notification_add));
   }
 }

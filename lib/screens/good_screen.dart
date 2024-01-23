@@ -89,7 +89,7 @@ class _GoodScreenState extends State<GoodScreen> {
       OpenAI.apiKey = key;
 
       final completion = await OpenAI.instance.completion.create(
-        model: "text-davinci-003",
+        model: "gpt-3.5-turbo-instruct",
         prompt:
             '$commentに対して、カウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字ぴったりでお願いします。',
         maxTokens: 200,

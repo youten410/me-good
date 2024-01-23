@@ -12,7 +12,7 @@ Future<void> getAdvice(comment) async {
 
   // Start using!
   final completion = await OpenAI.instance.completion.create(
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo-instruct",
       prompt:
           '100上記の文にカウンセラー風に日本語でアドバイスをお願いします。文末は「〜ましょう」で終わるようにしてください。文字数は50文字でお願いします。: $comment',
       maxTokens: 200);
